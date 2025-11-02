@@ -168,7 +168,37 @@ The container automatically:
 3. Configures Git to trust all directories
 4. Sets `GIT_SSH_COMMAND` to skip strict host key checking
 
-### Usage:
+### Utils Script (Recommended):
+```bash
+# Start containers
+./utils up
+
+# Install dependencies
+./utils install
+
+# Run tests
+./utils test
+
+# Run static analysis
+./utils phpstan
+
+# Check code style
+./utils cs-check
+
+# Fix code style
+./utils cs-fix
+
+# Run all quality checks
+./utils quality
+
+# Open shell
+./utils shell
+
+# Show all commands
+./utils
+```
+
+### Traditional Docker Compose:
 ```bash
 # Build and start container
 docker-compose up -d --build
