@@ -12,7 +12,11 @@ Transform the cloned `dranzd/common-event-sourcing` repository into a focused `d
 - **php**: ^8.3 (updated from 8.2)
 - **ext-json**: * (for JSON serialization)
 - **ramsey/uuid**: ^4.7 (used by Uuid value object)
-- **webmozart/assert**: ^1.11 (used by Assertion utilities)
+
+## Dependencies to Add
+- **dranzd/common-domain-assert**: Private library (git@github.com:dranzd/common-domain-assert.git)
+  - Replaces the local Assert component
+  - Provides domain assertion utilities
 
 ## Dependencies to Update (Dev)
 - **phpunit/phpunit**: ^11.0 (latest for PHP 8.3)
@@ -34,6 +38,9 @@ Transform the cloned `dranzd/common-event-sourcing` repository into a focused `d
   - Update namespace: `Dranzd\\Common\\EventSourcing` → `Dranzd\\Common\\ValueObject`
   - Update PHP requirement: `^8.2` → `^8.3`
   - Update dev dependencies to latest versions
+  - Add repository configuration for private `dranzd/common-domain-assert` library
+  - Add `dranzd/common-domain-assert` to require section
+  - Remove `webmozart/assert` from require section (now handled by common-domain-assert)
 - Update `README.md`:
   - Change title and description
   - Remove event sourcing examples
@@ -90,22 +97,31 @@ Transform the cloned `dranzd/common-event-sourcing` repository into a focused `d
 
 ---
 
-### ✅ Task 4: Keep and Review Assert Components
+### ✅ Task 4: Remove Assert Components and Add Dependency
 **Status:** Pending Approval  
-**Estimated Time:** 15 minutes
+**Estimated Time:** 10 minutes
 
 **Actions:**
-- **KEEP** `src/Domain/Assert/` directory (1 file: Assertion.php)
-- Review `Assertion.php` to ensure it's suitable for value object validation
-- Verify it properly wraps `webmozart/assert`
-- Add tests for Assertion class if missing
+- **REMOVE** `src/Domain/Assert/` directory (1 file: Assertion.php)
+- Add dependency on private `dranzd/common-domain-assert` library
+- Update `composer.json` to include repository configuration for private library:
+  ```json
+  "repositories": [
+      {
+          "type": "vcs",
+          "url": "git@github.com:dranzd/common-domain-assert.git"
+      }
+  ],
+  "require": {
+      "dranzd/common-domain-assert": "^1.0"
+  }
+  ```
 
-**Files to Review:**
-- `/media/dev/dranzd/common-valueobject/src/Domain/Assert/Assertion.php`
+**Directories to Delete:**
+- `/media/dev/dranzd/common-valueobject/src/Domain/Assert/`
 
-**Decision Point:**
-- If Assertion.php is minimal/generic, keep it
-- If it's event-sourcing specific, consider removing or refactoring
+**Files Modified:**
+- `/media/dev/dranzd/common-valueobject/composer.json`
 
 ---
 
