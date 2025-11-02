@@ -10,10 +10,7 @@ class Literal implements ValueObject, ScalarValueObjectTranslatorCapable
 {
     use CompareSameValueTrait;
 
-    /**
-     * @var string
-     */
-    protected $value;
+    protected string $value;
 
     public function __construct(string $value = '')
     {
@@ -25,25 +22,25 @@ class Literal implements ValueObject, ScalarValueObjectTranslatorCapable
         return $this->checkSameValueAs($object);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return \sprintf('Literal value object of %s', $this->value);
     }
 
-    public static function fromNative(): Literal
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
         return new static($value);
     }
 
-    public function toNative()
+    public function toNative(): string
     {
         return $this->value;
     }
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
-        return \is_string($this->value) && '' === $this->value;
+        return '' === $this->value;
     }
 }

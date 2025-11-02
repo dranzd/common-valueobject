@@ -10,22 +10,19 @@ class Boolean implements ValueObject, ScalarValueObjectTranslatorCapable
 {
     use CompareSameValueTrait;
 
-    /**
-     * @var bool
-     */
-    protected $value;
+    protected bool $value;
 
     public function __construct(bool $value)
     {
         $this->value = $value;
     }
 
-    public static function asTrue(): Boolean
+    public static function asTrue(): static
     {
         return new static(true);
     }
 
-    public static function asFalse(): Boolean
+    public static function asFalse(): static
     {
         return new static(false);
     }
@@ -35,19 +32,19 @@ class Boolean implements ValueObject, ScalarValueObjectTranslatorCapable
         return $this->checkSameValueAs($object);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return \sprintf('Boolean value object of %s', \strval($this->value));
     }
 
-    public static function fromNative(): Boolean
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
         return new static($value);
     }
 
-    public function toNative()
+    public function toNative(): bool
     {
         return $this->value;
     }

@@ -10,12 +10,9 @@ class Integer implements ValueObject, ScalarValueObjectTranslatorCapable
 {
     use CompareSameValueTrait;
 
-    /**
-     * @var int
-     */
-    protected $value;
+    protected int $value;
 
-    public function __construct(int $value = 0)
+    public function __construct(int $value)
     {
         $this->value = $value;
     }
@@ -25,19 +22,19 @@ class Integer implements ValueObject, ScalarValueObjectTranslatorCapable
         return $this->checkSameValueAs($object);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
-        return \sprintf('Integer value object of %s', $this->value);
+        return \sprintf('Integer value object of %d', $this->value);
     }
 
-    public static function fromNative(): Integer
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
         return new static($value);
     }
 
-    public function toNative()
+    public function toNative(): int
     {
         return $this->value;
     }

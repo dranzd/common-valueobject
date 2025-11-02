@@ -10,10 +10,7 @@ class Real implements ValueObject, ScalarValueObjectTranslatorCapable
 {
     use CompareSameValueTrait;
 
-    /**
-     * @var float
-     */
-    protected $value;
+    protected float $value;
 
     public function __construct(float $value = 0.0)
     {
@@ -25,24 +22,24 @@ class Real implements ValueObject, ScalarValueObjectTranslatorCapable
         return $this->checkSameValueAs($object);
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         return \sprintf('Real value object of %s', $this->value);
     }
 
-    public static function fromNative(): Real
+    public static function fromNative(): static
     {
         $value = func_get_arg(0);
 
         return new static($value);
     }
 
-    public function toNative()
+    public function toNative(): float
     {
         return $this->value;
     }
 
-    public static function withNoValue()
+    public static function withNoValue(): static
     {
         return new static(0.0);
     }
@@ -57,17 +54,17 @@ class Real implements ValueObject, ScalarValueObjectTranslatorCapable
         return $this->value < 0;
     }
 
-    public function plus(Real $reak): Real
+    public function plus(Real $reak): static
     {
         return self::fromNative($this->value + $reak->value);
     }
 
-    public function minus(Real $reak): Real
+    public function minus(Real $reak): static
     {
         return self::fromNative($this->value - $reak->value);
     }
 
-    public function multiply(Real $reak): Real
+    public function multiply(Real $reak): static
     {
         return self::fromNative($this->toNative() * $reak->toNative());
     }
