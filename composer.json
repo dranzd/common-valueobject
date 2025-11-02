@@ -35,7 +35,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dranzd\\Common\\Domain\\ValueObject\\": "src/"
+            "Dranzd\\Common\\Domain\\ValueObject\\": "src/Domain/ValueObject/"
         }
     },
     "autoload-dev": {
