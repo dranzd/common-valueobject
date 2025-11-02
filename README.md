@@ -1,183 +1,179 @@
-# Common Event Sourcing
+# Common ValueObject
 
-A framework-agnostic event sourcing library that provides common abstractions and utilities for building event-sourced applications using Domain-Driven Design (DDD) principles and Onion Architecture.
+A framework-agnostic Domain-Driven Design (DDD) value object library providing common implementations and utilities for building domain models with immutable, self-validating value objects.
 
 ## Features
 
-- **Event Sourcing Primitives**: Base classes and interfaces for event-sourced aggregates
-- **CQRS Support**: Command, Event, and Query message types with generic infrastructure
-- **Event Versioning**: Built-in support for event schema evolution with upcasters and VersionedEventTrait
-- **Aggregate Root Pattern**: AggregateRootTrait with automatic event replay and version management
-- **Flexible Metadata**: Trait-based causation, correlation, and actor tracking
-- **Metadata Injectors**: Utilities to transfer metadata from commands to events
-- **Named Constructor Pattern**: Expressive, domain-focused event creation
-- **DDD Building Blocks**: Domain events, aggregates, and value objects
-- **Framework Agnostic**: Clean separation of concerns with no framework dependencies
-- **Type Safety**: Full PHP 8.1+ type hints with static return types for fluent interfaces
-- **Comprehensive Tests**: 123 tests with 288 assertions ensuring reliability
+- **DDD Value Objects**: Immutable, self-validating domain primitives
+- **Rich Built-in Types**: Native types, DateTime, Money, UUID, Location, and more
+- **Type Safety**: Full PHP 8.3+ type hints with strict typing
+- **Framework Agnostic**: No framework dependencies, pure domain logic
+- **Validation**: Domain assertion utilities via `dranzd/common-domain-assert`
+- **Collection Support**: Type-safe collection implementations
+- **Search Components**: Criteria, filters, and pagination value objects
+- **Extensible**: Easy to create custom value objects
 
 ## Requirements
 
-- PHP 8.1 or higher
+- PHP 8.3 or higher
 - ext-json
 - ramsey/uuid ^4.7
-- webmozart/assert ^1.11
+- dranzd/common-domain-assert ^1.0 (private library)
 
 ## Installation
 
 ```bash
-composer require dranzd/common-event-sourcing
+composer require dranzd/common-valueobject
 ```
 
-The required dependencies (`ramsey/uuid` and `webmozart/assert`) will be installed automatically.
+The required dependencies will be installed automatically.
 
 ## Quick Start
 
-### 1. Create a Domain Event
+### 1. Using Built-in Value Objects
 
 ```php
-use Dranzd\Common\EventSourcing\Domain\EventSourcing\AbstractAggregateEvent;
-use Dranzd\Common\EventSourcing\Domain\EventSourcing\AggregateEventWithPrivateConstructorTrait;
+use Dranzd\Common\ValueObject\Identity\Uuid;
+use Dranzd\Common\ValueObject\Native\String\Literal;
+use Dranzd\Common\ValueObject\Native\Number\Integer;
 
-final class OrderPlaced extends AbstractAggregateEvent
+// UUID value object
+$userId = Uuid::fromNative('550e8400-e29b-41d4-a716-446655440000');
+echo $userId->toNative(); // "550e8400-e29b-41d4-a716-446655440000"
+
+// String literal
+$name = Literal::fromNative('John Doe');
+echo $name->toNative(); // "John Doe"
+
+// Integer
+$age = Integer::fromNative(30);
+echo $age->toNative(); // 30
+```
+
+### 2. Creating Custom Value Objects
+
+```php
+use Dranzd\Common\ValueObject\ValueObject;
+use Dranzd\Common\ValueObject\CompareSameValueTrait;
+
+final class EmailAddress implements ValueObject
 {
-    use AggregateEventWithPrivateConstructorTrait;
+    use CompareSameValueTrait;
     
-    const MESSAGE_NAME = 'order.order.placed';
+    private string $value;
     
-    private OrderId $orderId;
-    private CustomerId $customerId;
-    private Money $totalAmount;
-    
-    // Named constructor - expressive and domain-focused
-    public static function withAmount(
-        OrderId $orderId,
-        CustomerId $customerId,
-        Money $totalAmount
-    ): self {
-        $instance = new self();
-        $instance->orderId = $orderId;
-        $instance->customerId = $customerId;
-        $instance->totalAmount = $totalAmount;
-        return $instance;
+    private function __construct(string $value)
+    {
+        $this->validate($value);
+        $this->value = $value;
     }
     
-    public function getPayload(): array
+    public static function fromNative($value): self
     {
-        return [
-            'order_id' => $this->orderId->toNative(),
-            'customer_id' => $this->customerId->toNative(),
-            'total_amount' => $this->totalAmount->toArray(),
-        ];
+        return new self($value);
     }
     
-    protected function setPayload(array $payload): void
+    public function toNative(): string
     {
-        if (empty($payload)) {
-            return;
+        return $this->value;
+    }
+    
+    private function validate(string $value): void
+    {
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException('Invalid email address');
         }
-        
-        $this->orderId = OrderId::fromNative($payload['order_id']);
-        $this->customerId = CustomerId::fromNative($payload['customer_id']);
-        $this->totalAmount = Money::fromArray($payload['total_amount']);
+    }
+    
+    public function __toString(): string
+    {
+        return $this->value;
     }
 }
+
+// Usage
+$email = EmailAddress::fromNative('user@example.com');
+echo $email->toNative(); // "user@example.com"
 ```
 
-### 2. Create an Aggregate Root
-
-Implement the `AggregateRoot` interface using the `AggregateRootTrait`:
+### 3. Working with Money
 
 ```php
-use Dranzd\Common\EventSourcing\Domain\EventSourcing\AggregateRoot;
-use Dranzd\Common\EventSourcing\Domain\EventSourcing\AggregateRootTrait;
+use Dranzd\Common\ValueObject\Money\Basic as Money;
 
-class Order implements AggregateRoot
-{
-    use AggregateRootTrait;
-    
-    private string $orderId;
-    private string $status;
-    
-    public function __construct(string $orderId)
-    {
-        $this->orderId = $orderId;
-    }
-    
-    public function getAggregateRootUuid(): string
-    {
-        return $this->orderId;
-    }
-    
-    public function placeOrder(CustomerId $customerId, Money $amount): void
-    {
-        $event = OrderPlaced::withAmount(
-            OrderId::fromNative($this->orderId),
-            $customerId,
-            $amount
-        );
-        
-        $this->recordThat($event);
-    }
-    
-    public function confirmOrder(): void
-    {
-        $event = OrderConfirmed::forOrder(OrderId::fromNative($this->orderId));
-        $this->recordThat($event);
-    }
-    
-    // Apply methods are called automatically by the trait
-    protected function applyOnOrderPlaced(OrderPlaced $event): void
-    {
-        $payload = $event->getPayload();
-        $this->orderId = $payload['order_id'];
-        $this->status = 'placed';
-    }
-    
-    protected function applyOnOrderConfirmed(OrderConfirmed $event): void
-    {
-        $this->status = 'confirmed';
-    }
-}
+$price = Money::fromNative(['amount' => 1999, 'currency' => 'USD']);
+echo $price->getAmount(); // 1999
+echo $price->getCurrency(); // "USD"
 ```
 
-### Working with Events
+### 4. DateTime Value Objects
 
 ```php
-// Create and record events
-$order = new Order('order-123');
-$order->placeOrder($customerId, $amount);
-$order->confirmOrder();
+use Dranzd\Common\ValueObject\DateTime\DateTime;
+use Dranzd\Common\ValueObject\DateTime\Date;
 
-// Retrieve recorded events
-$events = $order->getRecordedEvents();
-
-// Pop events (retrieve and clear)
-$events = $order->popRecordedEvents();
-
-// Reconstitute from event history
-$order = Order::reconstituteFromHistory($events);
+$createdAt = DateTime::fromNative('2025-11-02 08:00:00');
+$birthDate = Date::fromNative('1990-01-15');
 ```
+
+## Built-in Value Objects
+
+### Native Types
+- **Boolean** - Boolean value object
+- **Integer** - Integer value object
+- **Real** - Float/decimal value object
+- **Literal** - String value object
+
+### Identity
+- **Uuid** - UUID value object (uses ramsey/uuid)
+
+### DateTime
+- **DateTime** - Date and time value object
+- **Date** - Date-only value object
+- **Time** - Time-only value object
+
+### Money
+- **Basic** - Money value object with amount and currency
+
+### Quantity
+- **Basic** - Quantity value object with value and unit
+
+### Location
+- **Address** - Address value object
+
+### File
+- **File** - File value object
+
+### Collection
+- **Collection** - Generic collection value object
+
+### Search Components
+- **Criteria** - Search criteria value object
+- **Filter** - Filter value object
+- **Page** - Pagination value object
+- **Query** - Search query value object
+- **Result** - Search result value object
+- **Sorter** - Sorting value object
 
 ## Architecture
 
-This library follows **Onion Architecture** principles:
+This library follows **Domain-Driven Design** principles:
 
 ```
 ┌─────────────────────────────────────┐
 │   Infrastructure Layer              │
-│   (Laravel/Laminas Adapters)        │
+│   (Framework Adapters)              │
 ├─────────────────────────────────────┤
 │   Application Layer                 │
-│   (Use Cases, Command Handlers)     │
+│   (Use Cases, Services)             │
 ├─────────────────────────────────────┤
 │   Domain Layer                      │
-│   (Aggregates, Events, Value Objs)  │
+│   (Entities, Value Objects)         │
 │   ← This Library                    │
 └─────────────────────────────────────┘
 ```
 
-The core domain logic remains framework-agnostic, with framework-specific implementations in outer layers.
+Value objects are immutable and self-validating, ensuring domain integrity at the core.
 
 ## Development
 
@@ -218,102 +214,22 @@ docker-compose run --rm php bash
 
 ## Design Principles
 
-- **Domain-Driven Design**: Aggregates, entities, value objects, and domain events
-- **Event Sourcing**: State changes captured as immutable events
-- **CQRS Ready**: Separate command and query models
-- **Framework Agnostic**: Core domain logic independent of infrastructure
-- **Testability**: Easy to unit test without framework dependencies
-- **Named Constructors**: Expressive event creation enforced by design
-- **Value Object Validation**: Type safety through domain objects
-- **Event Versioning**: Schema evolution without data migration
+- **Immutability**: Value objects are immutable once created
+- **Self-Validation**: Validation happens in the constructor
+- **Type Safety**: Strong typing with PHP 8.3+ features
+- **Equality by Value**: Two value objects are equal if their values are equal
+- **Framework Agnostic**: No framework dependencies
+- **Testability**: Easy to unit test
 
-## Documentation
+## Value Object Pattern
 
-- **[Event Design Patterns](docs/guides/event-patterns.md)** - Comprehensive guide to event patterns
-- **[Event Versioning Example](docs/examples/event-versioning-example.md)** - Complete versioning guide
-- **[Domain Event Design Review](docs/reviews/domain-event-design-review.md)** - Design analysis
-- **[Namespace Migration Notes](docs/migration/namespace-migration.md)** - Migration documentation
+All value objects in this library follow these principles:
 
-## Key Features Explained
-
-### Named Constructor Pattern
-
-Events use static factory methods for creation, making code more expressive:
-
-```php
-// ✅ Expressive - reads like domain language
-$event = OrderPlaced::withAmount($orderId, $customerId, $totalAmount);
-
-// ❌ Not allowed - constructor is private
-$event = new OrderPlaced($orderId, $customerId, $totalAmount);
-```
-
-### Event Versioning
-
-Built-in support for event schema evolution:
-
-```php
-final class OrderPlaced extends AbstractAggregateEvent implements VersionedEvent
-{
-    use VersionedEventTrait;
-    
-    const CURRENT_VERSION = 2;  // Increment when schema changes
-    
-    // Upcasters handle old event versions automatically
-}
-```
-
-### Metadata Tracking
-
-Events that extend `AbstractAggregateEvent` automatically include causation, correlation, and actor tracking:
-
-```php
-$event = OrderPlaced::withAmount($orderId, $customerId, $amount);
-
-// AbstractAggregateEvent includes these traits:
-// - CausationCapableTrait
-// - CorrelationCapableTrait  
-// - ActorCapableTrait
-
-// Add causation (this event was caused by a command)
-$event = $event->withCausationId($command->getMessageUuid());
-$event = $event->withCausationName('PlaceOrderCommand');
-
-// Add correlation (for distributed tracing)
-$event = $event->withCorrelationId($traceId);
-
-// Add actor information
-$event = $event->withActorId($userId);
-$event = $event->withActorName('John Doe');
-
-// Read metadata
-$causationId = $event->getCausationId();
-$correlationId = $event->getCorrelationId();
-$actorId = $event->getActorId();
-$occurredAt = $event->occurredAt();
-$eventId = $event->eventId();
-
-// Access metadata directly
-$value = $event->getMetadataValue('custom_key');
-$hasKey = $event->hasMetadata('custom_key');
-```
-
-For custom events, you can selectively use traits:
-
-```php
-use Dranzd\Common\EventSourcing\Domain\Event\AbstractEvent;
-use Dranzd\Common\EventSourcing\Domain\Message\CausationCapable;
-use Dranzd\Common\EventSourcing\Domain\Message\CausationCapableTrait;
-
-class CustomEvent extends AbstractEvent implements CausationCapable
-{
-    use CausationCapableTrait;
-    
-    const MESSAGE_NAME = 'custom.event';
-    
-    // Now has withCausationId(), getCausationId(), etc.
-}
-```
+1. **Immutable**: Once created, cannot be changed
+2. **Self-Validating**: Invalid states are impossible
+3. **Comparable**: Implements `sameValueAs()` for equality comparison
+4. **Serializable**: Can be converted to/from native types
+5. **Expressive**: Named constructors for clarity
 
 ## License
 
@@ -329,13 +245,9 @@ Contributions are welcome! Please ensure:
 
 ## Changelog
 
-### Recent Updates
-
-- ✅ **Comprehensive Test Suite** - 123 tests with 288 assertions covering all core functionality
-- ✅ **Event Versioning System** - Complete versioning support with upcasters and `VersionedEventTrait`
-- ✅ **Trait-Based Capabilities** - Flexible metadata support via `CausationCapableTrait`, `CorrelationCapableTrait`, `ActorCapableTrait`
-- ✅ **Aggregate Root Pattern** - `AggregateRootTrait` with automatic event application via `applyOn{EventName}` methods
-- ✅ **Type Safety** - Full `static` return types for fluent interfaces and method chaining
-- ✅ **Metadata Injectors** - Command-to-Event metadata transfer utilities
-- ✅ **Namespace Migration** - Migrated to `Dranzd\Common\EventSourcing`
-- ✅ **Documentation** - Comprehensive guides and examples
+### v1.0.0 (Initial Release)
+- ✅ Complete value object library extracted from event-sourcing
+- ✅ PHP 8.3 support
+- ✅ Integration with `dranzd/common-domain-assert`
+- ✅ 30+ built-in value object implementations
+- ✅ Comprehensive utilities for common use cases
