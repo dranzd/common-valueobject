@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1576052b727bbd6181d16b6cd755ac71",
+    "content-hash": "003e36dbae88b563fa6d9d3813b538bd",
     "packages": [
         {
             "name": "brick/math",
@@ -65,6 +65,67 @@
                 }
             ],
             "time": "2025-08-29T12:40:03+00:00"
+        },
+        {
+            "name": "dranzd/common-domain-assert",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dranzd/common-domain-assert.git",
+                "reference": "ebb1997830214fffa6119151944d46d8d9dfa6e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dranzd/common-domain-assert/zipball/ebb1997830214fffa6119151944d46d8d9dfa6e9",
+                "reference": "ebb1997830214fffa6119151944d46d8d9dfa6e9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "webmozart/assert": "^1.11"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": "^3.10"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dranzd\\Common\\Domain\\Assert\\": "src/Domain/Assert/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Dranzd\\Common\\Domain\\Assert\\Tests\\": "tests/Domain/Assert/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "phpstan": [
+                    "phpstan analyse src tests --level=9"
+                ],
+                "cs-check": [
+                    "phpcs --standard=PSR12 src tests"
+                ],
+                "cs-fix": [
+                    "phpcbf --standard=PSR12 src tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dranzd",
+                    "email": "dranzd@gmail.com"
+                }
+            ],
+            "description": "Domain-Driven Design (DDD) assertion utilities for domain validation, extending webmozart/assert",
+            "time": "2025-11-02T00:11:23+00:00"
         },
         {
             "name": "ramsey/collection",
@@ -2089,7 +2150,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "dranzd/common-domain-assert": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

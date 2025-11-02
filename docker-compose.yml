@@ -3,8 +3,9 @@ version: '3.9'
 services:
   php:
     build: .
-    container_name: common-event-sourcing
+    container_name: common-valueobject
     volumes:
       - .:/app
+      - ~/.ssh:/root/.ssh:ro
     working_dir: /app
     command: tail -f /dev/null

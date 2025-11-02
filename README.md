@@ -231,6 +231,19 @@ All value objects in this library follow these principles:
 4. **Serializable**: Can be converted to/from native types
 5. **Expressive**: Named constructors for clarity
 
+## Documentation
+
+### Guides
+- **[Creating Custom Value Objects](docs/guides/creating-value-objects.md)** - Complete guide to building your own value objects
+- **[Built-in Value Objects](docs/guides/built-in-value-objects.md)** - Reference for all included value objects
+
+### Examples
+- **[Custom Value Object Examples](docs/examples/custom-value-object-example.md)** - Real-world examples (Email, Phone, Price, DateRange, Percentage)
+
+### Migration
+- **[Strip-Down Complete](docs/migration/stripdown-complete.md)** - Summary of library transformation
+- **[ValueObject Strip-Down Plan](docs/migration/valueobject-stripdown-plan.md)** - Detailed execution plan
+
 ## License
 
 MIT
