@@ -2,7 +2,7 @@
 
 namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Identity;
 
-use Dranzd\Common\EventSourcing\Domain\Assert\Assertion;
+use Dranzd\Common\DomainAssert\Assertion;
 use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal;
 use Ramsey\Uuid\Uuid as BaseUuid;
 

@@ -2,7 +2,7 @@
 
 namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Search;
 
-use Dranzd\Common\EventSourcing\Domain\Assert\Assertion;
+use Dranzd\Common\DomainAssert\Assertion;
 
 class Result
 {
