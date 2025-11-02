@@ -1,14 +1,14 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Custom\Quantity;
+namespace Dranzd\Common\Domain\ValueObject\Custom\Quantity;
 
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\CompareSameValueTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\Number\Real as Value;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Unit;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ToStringUsingObjectHashTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ValueObject;
-use Dranzd\Common\EventSourcing\Util\ArrayUtil;
+use Dranzd\Common\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
+use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
+use Dranzd\Common\Domain\ValueObject\Native\Number\Real as Value;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Unit;
+use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
+use Dranzd\Common\Domain\ValueObject\ValueObject;
+use Dranzd\Common\Domain\Util\ArrayUtil;
 
 class Basic implements ValueObject, ArrayValueObjectTranslatorCapable
 {

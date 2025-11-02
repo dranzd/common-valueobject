@@ -1,6 +1,6 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Exception;
+namespace Dranzd\Common\Domain\ValueObject\Exception;
 
 final class InvalidNativeArgument extends \InvalidArgumentException
 {

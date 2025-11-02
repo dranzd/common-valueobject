@@ -1,6 +1,6 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject;
+namespace Dranzd\Common\Domain\ValueObject;
 
 interface ArrayValueObjectTranslatorCapable
 {

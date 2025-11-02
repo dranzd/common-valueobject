@@ -1,9 +1,9 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Identity;
+namespace Dranzd\Common\Domain\ValueObject\Identity;
 
 use Dranzd\Common\DomainAssert\Assertion;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal;
 use Ramsey\Uuid\Uuid as BaseUuid;
 
 class Uuid extends Literal

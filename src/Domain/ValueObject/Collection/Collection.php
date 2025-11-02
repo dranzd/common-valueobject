@@ -1,10 +1,10 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Collection;
+namespace Dranzd\Common\Domain\ValueObject\Collection;
 
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\CompareSameValueTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ValueObject;
+use Dranzd\Common\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
+use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
+use Dranzd\Common\Domain\ValueObject\ValueObject;
 use Doctrine\Common\Collections\ArrayCollection;
 
 class Collection extends ArrayCollection implements ValueObject, ArrayValueObjectTranslatorCapable

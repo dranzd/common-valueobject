@@ -29,12 +29,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Dranzd\\Common\\ValueObject\\": "src/"
+            "Dranzd\\Common\\Domain\\ValueObject\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Dranzd\\Common\\ValueObject\\Tests\\": "tests/"
+            "Dranzd\\Common\\Domain\\ValueObject\\Tests\\": "tests/"
         }
     },
     "scripts": {

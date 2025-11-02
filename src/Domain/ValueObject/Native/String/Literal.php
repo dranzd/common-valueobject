@@ -1,10 +1,10 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String;
+namespace Dranzd\Common\Domain\ValueObject\Native\String;
 
-use Dranzd\Common\EventSourcing\Domain\ValueObject\CompareSameValueTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ScalarValueObjectTranslatorCapable;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ValueObject;
+use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
+use Dranzd\Common\Domain\ValueObject\ScalarValueObjectTranslatorCapable;
+use Dranzd\Common\Domain\ValueObject\ValueObject;
 
 class Literal implements ValueObject, ScalarValueObjectTranslatorCapable
 {

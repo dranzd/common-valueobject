@@ -1,9 +1,9 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\DateTime;
+namespace Dranzd\Common\Domain\ValueObject\DateTime;
 
 use Dranzd\Common\DomainAssert\Assertion;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal;
 
 class Date extends Literal
 {

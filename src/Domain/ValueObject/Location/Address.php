@@ -1,19 +1,19 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Location;
+namespace Dranzd\Common\Domain\ValueObject\Location;
 
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\CompareSameValueTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Addressee;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as City;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Company;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Country;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Province;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Street;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as ZipCode;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ToStringUsingObjectHashTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ValueObject;
-use Dranzd\Common\EventSourcing\Util\ArrayUtil;
+use Dranzd\Common\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
+use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Addressee;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as City;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Company;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Country;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Province;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Street;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as ZipCode;
+use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
+use Dranzd\Common\Domain\ValueObject\ValueObject;
+use Dranzd\Common\Domain\Util\ArrayUtil;
 
 final class Address implements ValueObject, ArrayValueObjectTranslatorCapable
 {

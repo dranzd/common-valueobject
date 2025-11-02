@@ -1,6 +1,6 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Util;
+namespace Dranzd\Common\Domain\Util;
 
 use Illuminate\Support\Str;
 

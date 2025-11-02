@@ -1,16 +1,16 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\File;
+namespace Dranzd\Common\Domain\ValueObject\File;
 
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\CompareSameValueTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Label;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Name;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Path;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\Native\String\Literal as Type;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ToStringUsingObjectHashTrait;
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ValueObject;
-use Dranzd\Common\EventSourcing\Util\ArrayUtil;
+use Dranzd\Common\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
+use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Label;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Name;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Path;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Type;
+use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
+use Dranzd\Common\Domain\ValueObject\ValueObject;
+use Dranzd\Common\Domain\Util\ArrayUtil;
 
 class File implements ValueObject, ArrayValueObjectTranslatorCapable
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace Dranzd\Common\EventSourcing\Domain\ValueObject\Exception;
+namespace Dranzd\Common\Domain\ValueObject\Exception;
 
-use Dranzd\Common\EventSourcing\Domain\ValueObject\ValueObject;
+use Dranzd\Common\Domain\ValueObject\ValueObject;
 
 final class FromNativeValueIncapable extends \DomainException
 {

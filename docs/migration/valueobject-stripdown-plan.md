@@ -35,7 +35,7 @@ Transform the cloned `dranzd/common-event-sourcing` repository into a focused `d
 - Update `composer.json`:
   - Change package name: `dranzd/common-event-sourcing` → `dranzd/common-valueobject`
   - Change description to focus on value objects
-  - Update namespace: `Dranzd\\Common\\EventSourcing` → `Dranzd\\Common\\ValueObject`
+  - Update namespace: `Dranzd\\Common\\EventSourcing` → `Dranzd\\Common\\Domain\\ValueObject`
   - Update PHP requirement: `^8.2` → `^8.3`
   - Update dev dependencies to latest versions
   - Add repository configuration for private `dranzd/common-domain-assert` library
@@ -218,53 +218,49 @@ Transform the cloned `dranzd/common-event-sourcing` repository into a focused `d
 **Actions:**
 - Update all remaining PHP files to use new namespace
 - Change from: `Dranzd\Common\EventSourcing\Domain\ValueObject`
-- Change to: `Dranzd\Common\ValueObject`
+- Change to: `Dranzd\Common\Domain\ValueObject`
 - Update namespace in:
-  - All ValueObject files
-  - All Assert files
-  - All Util files (if kept)
+  - All ValueObject files (30 files)
+  - All Util files (7 files - to be migrated later)
   - All test files (if any remain)
 
 **Files to Update:**
 - All files in `src/Domain/ValueObject/` (30 files)
-- All files in `src/Domain/Assert/` (1 file)
-- All files in `src/Util/` (files that remain)
-- Move files from `src/Domain/ValueObject/` to `src/ValueObject/`
-- Move files from `src/Domain/Assert/` to `src/Assert/`
-- Move files from `src/Util/` to `src/Util/` (keep as is)
+- All files in `src/Util/` (7 files)
+- Keep directory structure: `src/Domain/ValueObject/` (no move needed)
+- Update Util namespace: `Dranzd\Common\EventSourcing\Util` → `Dranzd\Common\Domain\Util`
 
 ---
 
-### ✅ Task 8: Restructure Directory Layout
+### ✅ Task 8: Clean Up Empty Directories
 **Status:** Pending Approval  
-**Estimated Time:** 15 minutes
+**Estimated Time:** 5 minutes
 
 **Actions:**
-- Flatten directory structure to remove `Domain` layer
-- New structure:
+- Remove empty `tests/Domain/` directory
+- Keep DDD structure with Domain layer
+- Final structure:
   ```
   src/
-  ├── ValueObject/
-  │   ├── Collection/
-  │   ├── Custom/
-  │   ├── DateTime/
-  │   ├── Exception/
-  │   ├── File/
-  │   ├── Identity/
-  │   ├── Location/
-  │   ├── Money/
-  │   ├── Native/
-  │   ├── Search/
-  │   └── ValueObject.php (interface)
-  ├── Assert/
-  │   └── Assertion.php
-  └── Util/ (if kept)
+  ├── Domain/
+  │   └── ValueObject/
+  │       ├── Collection/
+  │       ├── Custom/
+  │       ├── DateTime/
+  │       ├── Exception/
+  │       ├── File/
+  │       ├── Identity/
+  │       ├── Location/
+  │       ├── Money/
+  │       ├── Native/
+  │       ├── Search/
+  │       └── ValueObject.php (interface)
+  └── Util/ (to be migrated to separate library later)
   ```
 
 **Actions:**
-- Move `src/Domain/ValueObject/*` → `src/ValueObject/`
-- Move `src/Domain/Assert/*` → `src/Assert/`
-- Delete empty `src/Domain/` directory
+- Remove empty `tests/Domain/` directory
+- Verify `src/Domain/ValueObject/` structure is intact
 
 ---
 
