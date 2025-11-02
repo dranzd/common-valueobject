@@ -2,7 +2,7 @@
 
 namespace Dranzd\Common\Domain\ValueObject\Search;
 
-use Dranzd\Common\DomainAssert\Assertion;
+use Webmozart\Assert\Assert as Assertion;
 
 class Page
 {

@@ -15,7 +15,7 @@ class MoneyUtil
      */
     public static function fromFloatToLowestDenomination($floatValue, $lowestDenomination = 100)
     {
-        return (integer) (number_format($floatValue * $lowestDenomination, log10($lowestDenomination), '.', ''));
+        return (int) (number_format($floatValue * $lowestDenomination, log10($lowestDenomination), '.', ''));
     }
 
     /**

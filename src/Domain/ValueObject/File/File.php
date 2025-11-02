@@ -14,7 +14,8 @@ use Dranzd\Common\Domain\Util\ArrayUtil;
 
 class File implements ValueObject, ArrayValueObjectTranslatorCapable
 {
-    use CompareSameValueTrait, ToStringUsingObjectHashTrait;
+    use CompareSameValueTrait;
+    use ToStringUsingObjectHashTrait;
 
     /**
      * @var Label

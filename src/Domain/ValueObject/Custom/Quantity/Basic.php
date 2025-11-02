@@ -12,7 +12,8 @@ use Dranzd\Common\Domain\Util\ArrayUtil;
 
 class Basic implements ValueObject, ArrayValueObjectTranslatorCapable
 {
-    use CompareSameValueTrait, ToStringUsingObjectHashTrait;
+    use CompareSameValueTrait;
+    use ToStringUsingObjectHashTrait;
 
     /**
      * @var Value

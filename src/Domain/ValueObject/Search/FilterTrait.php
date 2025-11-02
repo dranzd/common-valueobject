@@ -14,7 +14,7 @@ trait FilterTrait
         return false;
     }
 
-    public function sameClassAs(Object $object): bool
+    public function sameClassAs(object $object): bool
     {
         return get_class($this) === get_class($object);
     }
