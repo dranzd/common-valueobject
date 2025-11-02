@@ -2,7 +2,7 @@
 
 namespace Dranzd\Common\Domain\ValueObject\DateTime;
 
-use Webmozart\Assert\Assert as Assertion;
+use Dranzd\Common\Domain\Assert\Assertion;
 use Dranzd\Common\Domain\ValueObject\Native\String\Literal;
 
 class Date extends Literal

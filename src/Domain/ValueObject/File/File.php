@@ -10,7 +10,7 @@ use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Path;
 use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Type;
 use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
 use Dranzd\Common\Domain\ValueObject\ValueObject;
-use Dranzd\Common\Domain\Util\ArrayUtil;
+use Dranzd\Common\Utils\ArrayUtil;
 
 class File implements ValueObject, ArrayValueObjectTranslatorCapable
 {

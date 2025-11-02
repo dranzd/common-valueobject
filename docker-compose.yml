@@ -6,6 +6,8 @@ services:
     container_name: common-valueobject
     volumes:
       - .:/app
-      - ~/.ssh:/root/.ssh:ro
+      - ~/.ssh:/tmp/host-ssh:ro
     working_dir: /app
-    command: tail -f /dev/null
+    environment:
+      - GIT_SSH_COMMAND=ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null
+    command: sh -c "cp -r /tmp/host-ssh /root/.ssh && chmod 700 /root/.ssh && chmod 600 /root/.ssh/* 2>/dev/null || true && tail -f /dev/null"

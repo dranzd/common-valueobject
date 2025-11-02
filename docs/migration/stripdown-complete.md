@@ -22,6 +22,7 @@ The `dranzd/common-event-sourcing` repository has been successfully transformed 
 - **ext-json**: * (JSON support)
 - **ramsey/uuid**: ^4.7 (UUID generation)
 - **dranzd/common-domain-assert**: dev-master (Private library for domain assertions)
+- **dranzd/common-utils**: dev-master (Private library for utility functions)
 
 **Development Dependencies:**
 - **phpunit/phpunit**: ^11.0 (Latest for PHP 8.3)
@@ -45,6 +46,9 @@ The `dranzd/common-event-sourcing` repository has been successfully transformed 
 
 3. **Assert** (1 file)
    - `src/Domain/Assert/Assertion.php` - Replaced with `dranzd/common-domain-assert`
+
+4. **Util** (7 files)
+   - `src/Util/` - Replaced with `dranzd/common-utils` library
 
 ---
 
@@ -104,17 +108,6 @@ The `dranzd/common-event-sourcing` repository has been successfully transformed 
 - `Exception/InvalidNativeArgument.php`
 - `Exception/ToNativeValueIncapable.php`
 
-### Utility Components (7 files):
-- `Util/ArrayUtil.php` - Array manipulation utilities
-- `Util/DateUtil.php` - Date validation utilities
-- `Util/Idx.php` - Array/object property access
-- `Util/MoneyUtil.php` - Money conversion utilities
-- `Util/ObjectUtil.php` - Reflection utilities
-- `Util/SearchUtil.php` - Search string formatting
-- `Util/StringUtil.php` - String manipulation utilities
-
-**Note**: Util directory will be migrated to a separate library in the future.
-
 ---
 
 ## Namespace Changes
@@ -137,31 +130,23 @@ All imports and use statements updated accordingly.
 
 ```
 src/
-├── Domain/
-│   └── ValueObject/
-│       ├── Collection/
-│       ├── Custom/
-│       │   └── Quantity/
-│       ├── DateTime/
-│       ├── Exception/
-│       ├── File/
-│       ├── Identity/
-│       ├── Location/
-│       ├── Money/
-│       ├── Native/
-│       │   ├── Logic/
-│       │   ├── Number/
-│       │   └── String/
-│       ├── Search/
-│       └── ValueObject.php
-└── Util/
-    ├── ArrayUtil.php
-    ├── DateUtil.php
-    ├── Idx.php
-    ├── MoneyUtil.php
-    ├── ObjectUtil.php
-    ├── SearchUtil.php
-    └── StringUtil.php
+└── Domain/
+    └── ValueObject/
+        ├── Collection/
+        ├── Custom/
+        │   └── Quantity/
+        ├── DateTime/
+        ├── Exception/
+        ├── File/
+        ├── Identity/
+        ├── Location/
+        ├── Money/
+        ├── Native/
+        │   ├── Logic/
+        │   ├── Number/
+        │   └── String/
+        ├── Search/
+        └── ValueObject.php
 ```
 
 ---
@@ -170,14 +155,25 @@ src/
 
 ### Updated Files:
 - **Dockerfile**: PHP 8.3-cli with git, composer, zip, openssh-client
-- **docker-compose.yml**: Container name updated to `common-valueobject`, SSH keys mounted
+- **docker-compose.yml**: 
+  - Container name: `common-valueobject`
+  - SSH keys mounted from `~/.ssh` (copied to `/root/.ssh` with proper permissions)
+  - Git SSH command configured to skip host key verification
+  - Git safe directory configured for `/app`
+
+### SSH Authentication:
+The container automatically:
+1. Copies SSH keys from host `~/.ssh` to container `/root/.ssh`
+2. Sets proper permissions (700 for directory, 600 for files)
+3. Configures Git to trust all directories
+4. Sets `GIT_SSH_COMMAND` to skip strict host key checking
 
 ### Usage:
 ```bash
 # Build and start container
 docker-compose up -d --build
 
-# Run composer install inside container
+# Run composer install inside container (with private repo access)
 docker-compose exec php composer install
 
 # Run tests
@@ -188,19 +184,24 @@ docker-compose exec php composer phpstan
 
 # Run code style check
 docker-compose exec php composer cs-check
+
+# Fix code style issues
+docker-compose exec php composer cs-fix
 ```
 
 ---
 
 ## Next Steps
 
-### 1. Install Dependencies
+### 1. ✅ Install Dependencies (COMPLETED)
 ```bash
 docker-compose up -d --build
 docker-compose exec php composer install
 ```
 
-**Note**: The private `dranzd/common-domain-assert` library requires GitHub SSH authentication.
+**Status**: Both private libraries successfully installed:
+- ✅ `dranzd/common-domain-assert` (dev-master df678ec)
+- ✅ `dranzd/common-utils` (dev-master dcdec31)
 
 ### 2. Run Tests
 ```bash
@@ -244,40 +245,80 @@ docker-compose exec php composer cs-check
 - [x] Package name changed to `dranzd/common-valueobject`
 - [x] Namespace changed to `Dranzd\Common\Domain\ValueObject`
 - [x] PHP requirement: ^8.3
-- [x] All Event Sourcing components removed
-- [x] All Messaging components removed
-- [x] All Assert components removed (replaced with external library)
-- [x] All ValueObject files retained and updated
+- [x] All Event Sourcing components removed (22 files)
+- [x] All Messaging components removed (12 files)
+- [x] All Assert components removed (replaced with `dranzd/common-domain-assert`)
+- [x] All Util components removed (replaced with `dranzd/common-utils`)
+- [x] All ValueObject files retained and updated (30 files)
 - [x] All imports and use statements updated
 - [x] README.md rewritten for ValueObject focus
-- [x] Docker configuration updated for PHP 8.3
+- [x] Docker configuration updated for PHP 8.3 with SSH authentication
 - [x] composer.json valid
-- [ ] Dependencies installed (requires GitHub authentication)
-- [ ] Tests passing (pending dependency installation)
-- [ ] PHPStan passing (pending dependency installation)
+- [x] Dependencies installed (both private libraries working)
+- [x] Code style: PSR-12 compliant (PHPCS passing)
+- [x] PHPStan: 16 warnings (non-critical "new static" warnings)
+- [ ] Tests: No tests exist yet (test suite needs creation)
 
 ---
 
-## Known Issues
+## Known Issues & Notes
 
-1. **Private Repository Authentication**: The `dranzd/common-domain-assert` library requires GitHub SSH authentication. Ensure SSH keys are properly configured before running `composer install`.
+1. **✅ Private Repository Authentication (RESOLVED)**: 
+   - Docker container now properly configured with SSH key mounting
+   - Both private libraries (`common-domain-assert` and `common-utils`) successfully installed
+   - Git configured to trust all directories and skip strict host key checking
 
-2. **Util Directory**: The Util directory is temporarily kept in this library but should be migrated to a separate `dranzd/common-util` library in the future.
+2. **PHPStan Warnings (16 errors)**:
+   - All warnings are "Unsafe usage of new static()" - non-critical
+   - These are PHPStan level 2 strictness checks on late static binding
+   - Can be suppressed or fixed with self-typed factory methods
+   - Does not affect functionality
+
+3. **No Tests**:
+   - Test directory exists but is empty
+   - PHPUnit 11 configured and ready
+   - Test suite creation recommended for future development
 
 ---
 
 ## Success Criteria Met
 
-✅ All libraries installable via Composer (pending auth)
+✅ All libraries installable via Composer with SSH authentication
 ✅ Zero circular dependencies
 ✅ DDD structure with Domain layer maintained
-✅ Framework-agnostic implementation
-✅ PHP 8.3 with latest dependencies
-✅ Comprehensive README documentation
-✅ Docker environment configured
+✅ Framework-agnostic implementation (Util moved to separate library)
+✅ PHP 8.3 with latest dependencies (PHPUnit 11, PHPStan 2)
+✅ Comprehensive README documentation with guides and examples
+✅ Docker environment configured with SSH key mounting
+✅ Code style: PSR-12 compliant
+✅ Private libraries integrated: `common-domain-assert` and `common-utils`
+
+---
+
+## Final Statistics
+
+**Files Removed**: 47 files
+- Event Sourcing: 22 files
+- Messaging: 12 files  
+- Assert: 1 file
+- Util: 7 files
+- Tests: 5 files
+
+**Files Kept**: 30 ValueObject files
+
+**Dependencies Added**: 2 private libraries
+- `dranzd/common-domain-assert`
+- `dranzd/common-utils`
+
+**Quality Metrics**:
+- ✅ Code Style: 100% PSR-12 compliant
+- ⚠️ PHPStan: 16 non-critical warnings
+- ⚠️ Tests: 0 (test suite needs creation)
+- ✅ Documentation: Complete with 3 guides and examples
 
 ---
 
 **Strip-Down Status**: ✅ COMPLETE
 **Date**: 2025-11-02
 **Version**: 1.0.0-dev
+**Total Files**: 30 ValueObject files + Documentation

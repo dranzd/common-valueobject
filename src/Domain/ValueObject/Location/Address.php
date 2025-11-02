@@ -13,7 +13,7 @@ use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Street;
 use Dranzd\Common\Domain\ValueObject\Native\String\Literal as ZipCode;
 use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
 use Dranzd\Common\Domain\ValueObject\ValueObject;
-use Dranzd\Common\Domain\Util\ArrayUtil;
+use Dranzd\Common\Utils\ArrayUtil;
 
 final class Address implements ValueObject, ArrayValueObjectTranslatorCapable
 {

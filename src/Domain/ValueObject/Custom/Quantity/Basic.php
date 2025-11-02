@@ -8,7 +8,7 @@ use Dranzd\Common\Domain\ValueObject\Native\Number\Real as Value;
 use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Unit;
 use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
 use Dranzd\Common\Domain\ValueObject\ValueObject;
-use Dranzd\Common\Domain\Util\ArrayUtil;
+use Dranzd\Common\Utils\ArrayUtil;
 
 class Basic implements ValueObject, ArrayValueObjectTranslatorCapable
 {

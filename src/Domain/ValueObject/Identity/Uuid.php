@@ -2,7 +2,7 @@
 
 namespace Dranzd\Common\Domain\ValueObject\Identity;
 
-use Webmozart\Assert\Assert as Assertion;
+use Dranzd\Common\Domain\Assert\Assertion;
 use Dranzd\Common\Domain\ValueObject\Native\String\Literal;
 use Ramsey\Uuid\Uuid as BaseUuid;
 

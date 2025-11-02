@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f2ff94f5ae7df82421ba0678f170f2eb",
+    "content-hash": "8e43706606d8e3997da9c165982998b0",
     "packages": [
         {
             "name": "brick/math",
@@ -65,6 +65,140 @@
                 }
             ],
             "time": "2025-08-29T12:40:03+00:00"
+        },
+        {
+            "name": "dranzd/common-domain-assert",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dranzd/common-domain-assert.git",
+                "reference": "df678ece7e96d0a9d436af28c15e9ec58547b8fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dranzd/common-domain-assert/zipball/df678ece7e96d0a9d436af28c15e9ec58547b8fc",
+                "reference": "df678ece7e96d0a9d436af28c15e9ec58547b8fc",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.3",
+                "webmozart/assert": "^1.11"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^2.0",
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": "^3.10"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dranzd\\Common\\Domain\\Assert\\": "src/Domain/Assert/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Dranzd\\Common\\Domain\\Assert\\Tests\\": "tests/Domain/Assert/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "phpstan": [
+                    "phpstan analyse src tests --level=9"
+                ],
+                "cs-check": [
+                    "phpcs --standard=PSR12 src tests"
+                ],
+                "cs-fix": [
+                    "phpcbf --standard=PSR12 src tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dranzd",
+                    "email": "dranzd@gmail.com"
+                }
+            ],
+            "description": "Domain-Driven Design (DDD) assertion utilities for domain validation, extending webmozart/assert",
+            "time": "2025-11-02T05:16:00+00:00"
+        },
+        {
+            "name": "dranzd/common-utils",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:dranzd/common-utils.git",
+                "reference": "dcdec316fb5dcf5ec07c932b05e479ccd18ad2c7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dranzd/common-utils/zipball/dcdec316fb5dcf5ec07c932b05e479ccd18ad2c7",
+                "reference": "dcdec316fb5dcf5ec07c932b05e479ccd18ad2c7",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^1.12",
+                "phpunit/phpunit": "^11.0",
+                "squizlabs/php_codesniffer": "^3.10"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dranzd\\Common\\Utils\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Dranzd\\Common\\Utils\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "test": [
+                    "phpunit"
+                ],
+                "phpstan": [
+                    "phpstan analyse src tests --level=8"
+                ],
+                "cs-check": [
+                    "phpcs --standard=PSR12 src tests"
+                ],
+                "cs-fix": [
+                    "phpcbf --standard=PSR12 src tests"
+                ]
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Dranzd",
+                    "email": "dranzd@gmail.com"
+                }
+            ],
+            "description": "Framework-agnostic utility functions for PHP applications - Array, String, Date, Money, Object, and Search utilities",
+            "keywords": [
+                "array",
+                "date",
+                "framework-agnostic",
+                "helpers",
+                "money",
+                "object",
+                "php8.3",
+                "search",
+                "string",
+                "utilities"
+            ],
+            "time": "2025-11-02T05:09:40+00:00"
         },
         {
             "name": "ramsey/collection",
@@ -2188,7 +2322,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {},
+    "stability-flags": {
+        "dranzd/common-domain-assert": 20,
+        "dranzd/common-utils": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

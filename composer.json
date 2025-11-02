@@ -10,11 +10,22 @@
         }
     ],
     "minimum-stability": "stable",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:dranzd/common-domain-assert.git"
+        },
+        {
+            "type": "vcs",
+            "url": "git@github.com:dranzd/common-utils.git"
+        }
+    ],
     "require": {
         "php": "^8.3",
         "ext-json": "*",
         "ramsey/uuid": "^4.7",
-        "webmozart/assert": "^1.11"
+        "dranzd/common-domain-assert": "dev-master",
+        "dranzd/common-utils": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "^11.0",
