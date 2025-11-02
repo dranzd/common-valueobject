@@ -24,6 +24,7 @@
         "php": "^8.3",
         "ext-json": "*",
         "ramsey/uuid": "^4.7",
+        "doctrine/collections": "^2.0",
         "dranzd/common-domain-assert": "dev-master",
         "dranzd/common-utils": "dev-master"
     },

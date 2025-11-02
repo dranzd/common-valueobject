@@ -1,0 +1,21 @@
+parameters:
+    level: 5
+    paths:
+        - src
+        - tests
+    
+    ignoreErrors:
+        # Intentional: Late static binding for value object factory methods
+        - '#Unsafe usage of new static\(\)#'
+        
+        # Intentional: Defensive programming - assertions for runtime safety
+        - '#will always evaluate to (true|false)#'
+        
+        # Intentional: Traits are meant to be used by library consumers
+        - '#Trait .* is used zero times and is not analysed#'
+        
+        # Intentional: Variables from func_get_args() pattern in fromNative/fromArray
+        - '#Variable .* might not be defined#'
+        
+        # Intentional: Private method called through static for factory pattern
+        - '#Unsafe call to private method .* through static#'

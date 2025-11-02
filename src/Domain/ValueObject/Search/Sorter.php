@@ -5,12 +5,12 @@ namespace Dranzd\Common\Domain\ValueObject\Search;
 interface Sorter extends Criteria
 {
     /**
-     * @return Sort
+     * @return Sorter
      */
     public static function inAscendingOrder(): Sorter;
 
     /**
-     * @return Sort
+     * @return Sorter
      */
     public static function inDescendingOrder(): Sorter;
 
