@@ -28,7 +28,7 @@ jobs:
 
       - name: Setup Composer authentication
         run: |
-          composer config --global github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+          composer config --global github-oauth.github.com ${{ secrets.GH_TOKEN }}
 
       - name: Validate composer.json
         run: composer validate --strict
