@@ -8,7 +8,7 @@ use Ramsey\Uuid\Uuid as BaseUuid;
 
 class Uuid extends Literal
 {
-    public function __construct(?string $value = null)
+    public function __construct(string|null $value = null)
     {
         if (null === $value) {
             $value = BaseUuid::uuid4()->toString();

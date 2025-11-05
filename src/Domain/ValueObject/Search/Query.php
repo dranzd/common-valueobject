@@ -22,7 +22,7 @@ class Query
     private $sorters;
 
     public function __construct(
-        Page $page = null,
+        Page|null $page = null,
         array $filters = [],
         array $sorters = []
     ) {

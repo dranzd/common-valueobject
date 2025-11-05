@@ -9,7 +9,7 @@ class DateTime extends Literal
 {
     private const DATE_FORMAT = 'Y-m-d H:i:s';
 
-    public function __construct($value = null)
+    public function __construct(string|null $value = null)
     {
         if (null === $value) {
             $value = \date(self::DATE_FORMAT);
