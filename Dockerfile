@@ -19,6 +19,9 @@ WORKDIR /app
 # Copy project files
 COPY . .
 
+# Install/update dependencies
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
+
 # Default command (keep container running)
 CMD ["tail", "-f", "/dev/null"]
 
