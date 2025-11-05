@@ -10,6 +10,9 @@ RUN apt-get update && apt-get install -y \
 # Install Composer globally
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
+# Configure git to trust the /app directory (fixes ownership warning in Docker)
+RUN git config --global --add safe.directory /app
+
 # Set working directory
 WORKDIR /app
 
