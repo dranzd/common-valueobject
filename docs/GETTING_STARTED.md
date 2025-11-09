@@ -22,6 +22,13 @@ Welcome to the `dranzd/common-valueobject` library development! This guide will 
 - **Code Style:** PSR-12
 - **License:** MIT
 
+### Documentation Policy
+
+⚠️ **Important:** All project documentation MUST be in the `docs/` directory (version controlled).
+
+- ✅ **Use `docs/`** for: Features, plans, guides, examples, decisions
+- ❌ **Use `.cascade/`** for: AI context only (NOT committed to git)
+
 ## Development Environment
 
 ### Prerequisites
