@@ -37,14 +37,12 @@ trait ToNativeTestTrait
         // For scalar values, assert equality
         if (is_scalar($value)) {
             $this->assertEquals($value, $native);
-        }
-        // For arrays, assert structure matches
-        elseif (is_array($value)) {
+        } elseif (is_array($value)) {
+            // For arrays, assert structure matches
             $this->assertIsArray($native);
             $this->assertEquals($value, $native);
-        }
-        // For objects, convert to array or string
-        else {
+        } else {
+            // For objects, convert to array or string
             $this->assertNotNull($native);
         }
     }
@@ -58,7 +56,7 @@ trait ToNativeTestTrait
     {
         $class = $this->getValueObjectClass();
         $valueObject = $class::fromNative($value);
-        
+
         $native1 = $valueObject->toNative();
         $native2 = $valueObject->toNative();
 
@@ -74,7 +72,7 @@ trait ToNativeTestTrait
     {
         $instance = new static('testToNativeReturnsCorrectValue');
         $values = $instance->getValidNativeValues();
-        
+
         return array_map(fn($value) => [$value], $values);
     }
 }

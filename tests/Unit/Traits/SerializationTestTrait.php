@@ -32,7 +32,7 @@ trait SerializationTestTrait
     {
         $class = $this->getValueObjectClass();
         $original = $class::fromNative($value);
-        
+
         $native = $original->toNative();
         $reconstructed = $class::fromNative($native);
 
@@ -51,11 +51,11 @@ trait SerializationTestTrait
     {
         $class = $this->getValueObjectClass();
         $original = $class::fromNative($value);
-        
+
         $native = $original->toNative();
         $json = json_encode($native, JSON_THROW_ON_ERROR);
         $this->assertIsString($json);
-        
+
         $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         $reconstructed = $class::fromNative($decoded);
 
@@ -74,7 +74,7 @@ trait SerializationTestTrait
     {
         $instance = new static('testSerializationRoundTrip');
         $values = $instance->getValidNativeValues();
-        
+
         return array_map(fn($value) => [$value], $values);
     }
 }

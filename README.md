@@ -33,13 +33,23 @@ The required dependencies will be installed automatically.
 ### 1. Using Built-in Value Objects
 
 ```php
-use Dranzd\Common\ValueObject\Identity\Uuid;
-use Dranzd\Common\ValueObject\Native\String\Literal;
-use Dranzd\Common\ValueObject\Native\Number\Integer;
+use Dranzd\Common\Domain\ValueObject\Identity\Uuid;
+use Dranzd\Common\Domain\ValueObject\Identity\Actor;
+use Dranzd\Common\Domain\ValueObject\Native\String\Literal;
+use Dranzd\Common\Domain\ValueObject\Native\Number\Integer;
 
 // UUID value object
 $userId = Uuid::fromNative('550e8400-e29b-41d4-a716-446655440000');
 echo $userId->toNative(); // "550e8400-e29b-41d4-a716-446655440000"
+
+// Actor value object (for audit trails and event sourcing)
+$actor = Actor::user(
+    id: 'usr-123',
+    name: 'John Doe',
+    tenantId: 'tenant-1',
+    branchId: 'branch-5'
+);
+echo $actor->name(); // "John Doe"
 
 // String literal
 $name = Literal::fromNative('John Doe');

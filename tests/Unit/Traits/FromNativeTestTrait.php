@@ -54,7 +54,7 @@ trait FromNativeTestTrait
     public function testFromNativeWithInvalidValues(mixed $value): void
     {
         $this->expectException(\Throwable::class);
-        
+
         $class = $this->getValueObjectClass();
         $class::fromNative($value);
     }
@@ -68,7 +68,7 @@ trait FromNativeTestTrait
     {
         $instance = new static('testFromNativeWithValidValues');
         $values = $instance->getValidNativeValues();
-        
+
         return array_map(fn($value) => [$value], $values);
     }
 
@@ -81,7 +81,7 @@ trait FromNativeTestTrait
     {
         $instance = new static('testFromNativeWithInvalidValues');
         $values = $instance->getInvalidNativeValues();
-        
+
         return array_map(fn($value) => [$value], $values);
     }
 }

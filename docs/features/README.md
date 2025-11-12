@@ -13,7 +13,7 @@ This directory contains feature specifications for the `dranzd/common-valueobjec
 | 1002 | [Advanced Value Object Tests](1002-advanced-value-object-tests.md) | 🔵 Planned | High | 1000, 1001 |
 | 1003 | [PHPStan Cleanup](1003-phpstan-cleanup.md) | 🔵 Planned | Medium | 1000 |
 | 1004 | [CI/CD Pipeline](1004-cicd-pipeline.md) | 🔵 Planned | High | 1000, 1001 |
-| 1005 | [Actor Value Object](1005-actor-value-object.md) | 🔵 Planned | High | None |
+| 1005 | [Actor Value Object](1005-actor-value-object.md) | ✅ Completed | High | None |
 
 ### Status Legend
 
@@ -232,21 +232,21 @@ Links to related feature documents
 ## Statistics
 
 **Total Features:** 6
-- 🔵 Planned: 5
+- 🔵 Planned: 4
 - 🟡 In Progress: 0
-- ✅ Completed: 1 (1000)
+- ✅ Completed: 2 (1000, 1005)
 - ⚠️ Blocked: 0
 - ❌ Cancelled: 0
 
 **By Priority:**
 - Critical: 2 (1000 ✅, 1001)
-- High: 3 (1002, 1004, 1005)
+- High: 3 (1002, 1004, 1005 ✅)
 - Medium: 1 (1003)
 - Low: 0
 
 **By Series:**
 - 1000-1999 (Core Infrastructure): 5 features (1 completed)
-- 2000-2999 (Additional Value Objects): 1 feature
+- 2000-2999 (Additional Value Objects): 1 feature (1 completed)
 
 ---
 

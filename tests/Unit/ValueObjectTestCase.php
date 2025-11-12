@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace Dranzd\Common\Domain\ValueObject\Tests\Unit;
 
+use Dranzd\Common\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
+use Dranzd\Common\Domain\ValueObject\ScalarValueObjectTranslatorCapable;
 use Dranzd\Common\Domain\ValueObject\ValueObject;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Base test case for value object tests.
- * 
+ *
  * Provides common assertion methods and utilities for testing value objects.
  */
 abstract class ValueObjectTestCase extends TestCase
@@ -71,7 +73,7 @@ abstract class ValueObjectTestCase extends TestCase
 
         foreach ($publicMethods as $method) {
             $methodName = $method->getName();
-            
+
             // Check for setter methods (starts with 'set')
             if (str_starts_with($methodName, 'set')) {
                 $this->fail(
@@ -129,11 +131,19 @@ abstract class ValueObjectTestCase extends TestCase
     protected function valueObjectToString(ValueObject $valueObject): string
     {
         try {
-            $native = $valueObject->toNative();
-            if (is_scalar($native)) {
-                return (string) $native;
+            if ($valueObject instanceof ScalarValueObjectTranslatorCapable) {
+                $native = $valueObject->toNative();
+                if (is_scalar($native)) {
+                    return (string) $native;
+                }
+                return json_encode($native, JSON_THROW_ON_ERROR);
             }
-            return json_encode($native, JSON_THROW_ON_ERROR);
+
+            if ($valueObject instanceof ArrayValueObjectTranslatorCapable) {
+                return json_encode($valueObject->toArray(), JSON_THROW_ON_ERROR);
+            }
+
+            return get_class($valueObject);
         } catch (\Throwable $e) {
             return get_class($valueObject);
         }
@@ -154,7 +164,18 @@ abstract class ValueObjectTestCase extends TestCase
             );
         }
 
-        return $class::fromNative($value);
+        if (is_subclass_of($class, ScalarValueObjectTranslatorCapable::class)) {
+            /** @phpstan-ignore-next-line */
+            return $class::fromNative($value);
+        }
+
+        if (is_subclass_of($class, ArrayValueObjectTranslatorCapable::class) && is_array($value)) {
+            return $class::fromArray($value);
+        }
+
+        throw new \InvalidArgumentException(
+            sprintf('%s must implement ScalarValueObjectTranslatorCapable or ArrayValueObjectTranslatorCapable', $class)
+        );
     }
 
     /**
@@ -165,15 +186,44 @@ abstract class ValueObjectTestCase extends TestCase
      */
     protected function assertSerializable(ValueObject $valueObject, string $message = ''): void
     {
-        $native = $valueObject->toNative();
         $class = get_class($valueObject);
-        $reconstructed = $class::fromNative($native);
 
-        $this->assertValueObjectEquals(
-            $valueObject,
-            $reconstructed,
-            $message ?: sprintf(
-                'Failed asserting that %s can be serialized and deserialized correctly',
+        if ($valueObject instanceof ScalarValueObjectTranslatorCapable) {
+            $native = $valueObject->toNative();
+            /** @phpstan-ignore-next-line */
+            $reconstructed = $class::fromNative($native);
+
+            $this->assertValueObjectEquals(
+                $valueObject,
+                $reconstructed,
+                $message ?: sprintf(
+                    'Failed asserting that %s can be serialized and deserialized correctly',
+                    $class
+                )
+            );
+            return;
+        }
+
+        if ($valueObject instanceof ArrayValueObjectTranslatorCapable) {
+            $array = $valueObject->toArray();
+            /** @phpstan-ignore-next-line */
+            $reconstructed = $class::fromArray($array);
+
+            $this->assertValueObjectEquals(
+                $valueObject,
+                $reconstructed,
+                $message ?: sprintf(
+                    'Failed asserting that %s can be serialized and deserialized correctly',
+                    $class
+                )
+            );
+            return;
+        }
+
+        $this->fail(
+            sprintf(
+                '%s must implement ScalarValueObjectTranslatorCapable or ' .
+                'ArrayValueObjectTranslatorCapable to be serializable',
                 $class
             )
         );
@@ -187,18 +237,48 @@ abstract class ValueObjectTestCase extends TestCase
      */
     protected function assertJsonSerializable(ValueObject $valueObject, string $message = ''): void
     {
-        $native = $valueObject->toNative();
-        $json = json_encode($native, JSON_THROW_ON_ERROR);
-        $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
-        
         $class = get_class($valueObject);
-        $reconstructed = $class::fromNative($decoded);
 
-        $this->assertValueObjectEquals(
-            $valueObject,
-            $reconstructed,
-            $message ?: sprintf(
-                'Failed asserting that %s can be JSON serialized and deserialized correctly',
+        if ($valueObject instanceof ScalarValueObjectTranslatorCapable) {
+            $native = $valueObject->toNative();
+            $json = json_encode($native, JSON_THROW_ON_ERROR);
+            $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+            /** @phpstan-ignore-next-line */
+            $reconstructed = $class::fromNative($decoded);
+
+            $this->assertValueObjectEquals(
+                $valueObject,
+                $reconstructed,
+                $message ?: sprintf(
+                    'Failed asserting that %s can be JSON serialized and deserialized correctly',
+                    $class
+                )
+            );
+            return;
+        }
+
+        if ($valueObject instanceof ArrayValueObjectTranslatorCapable) {
+            $array = $valueObject->toArray();
+            $json = json_encode($array, JSON_THROW_ON_ERROR);
+            $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+            /** @phpstan-ignore-next-line */
+            $reconstructed = $class::fromArray($decoded);
+
+            $this->assertValueObjectEquals(
+                $valueObject,
+                $reconstructed,
+                $message ?: sprintf(
+                    'Failed asserting that %s can be JSON serialized and deserialized correctly',
+                    $class
+                )
+            );
+            return;
+        }
+
+        $this->fail(
+            sprintf(
+                '%s must implement ScalarValueObjectTranslatorCapable or ' .
+                'ArrayValueObjectTranslatorCapable to be JSON serializable',
                 $class
             )
         );

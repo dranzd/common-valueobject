@@ -35,7 +35,7 @@ trait EqualityTestTrait
 
         $value = $values[0];
         $class = $this->getValueObjectClass();
-        
+
         $valueObject1 = $class::fromNative($value);
         $valueObject2 = $class::fromNative($value);
 
@@ -56,7 +56,7 @@ trait EqualityTestTrait
         }
 
         $class = $this->getValueObjectClass();
-        
+
         $valueObject1 = $class::fromNative($values[0]);
         $valueObject2 = $class::fromNative($values[1]);
 
@@ -97,7 +97,7 @@ trait EqualityTestTrait
 
         $value = $values[0];
         $class = $this->getValueObjectClass();
-        
+
         $valueObject1 = $class::fromNative($value);
         $valueObject2 = $class::fromNative($value);
 
@@ -123,7 +123,7 @@ trait EqualityTestTrait
 
         $value = $values[0];
         $class = $this->getValueObjectClass();
-        
+
         $valueObject1 = $class::fromNative($value);
         $valueObject2 = $class::fromNative($value);
         $valueObject3 = $class::fromNative($value);
