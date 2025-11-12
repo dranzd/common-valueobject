@@ -8,7 +8,7 @@ This directory contains feature specifications for the `dranzd/common-valueobjec
 
 | Number | Name | Status | Priority | Dependencies |
 |--------|------|--------|----------|--------------|
-| 1000 | [Test Infrastructure](1000-test-infrastructure.md) | 🔵 Planned | Critical | None |
+| 1000 | [Test Infrastructure](1000-test-infrastructure.md) | ✅ Completed | Critical | None |
 | 1001 | [Core Value Object Tests](1001-core-value-object-tests.md) | 🔵 Planned | Critical | 1000 |
 | 1002 | [Advanced Value Object Tests](1002-advanced-value-object-tests.md) | 🔵 Planned | High | 1000, 1001 |
 | 1003 | [PHPStan Cleanup](1003-phpstan-cleanup.md) | 🔵 Planned | Medium | 1000 |
@@ -232,20 +232,20 @@ Links to related feature documents
 ## Statistics
 
 **Total Features:** 6
-- 🔵 Planned: 6
+- 🔵 Planned: 5
 - 🟡 In Progress: 0
-- ✅ Completed: 0
+- ✅ Completed: 1 (1000)
 - ⚠️ Blocked: 0
 - ❌ Cancelled: 0
 
 **By Priority:**
-- Critical: 2 (1000, 1001)
+- Critical: 2 (1000 ✅, 1001)
 - High: 3 (1002, 1004, 1005)
 - Medium: 1 (1003)
 - Low: 0
 
 **By Series:**
-- 1000-1999 (Core Infrastructure): 5 features
+- 1000-1999 (Core Infrastructure): 5 features (1 completed)
 - 2000-2999 (Additional Value Objects): 1 feature
 
 ---

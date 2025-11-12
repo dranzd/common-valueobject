@@ -3,6 +3,8 @@
 /.vscode
 /.env
 /.phpunit.result.cache
+/.phpunit.cache
+/coverage
 
 # IDE and AI context (for AI support only, not project documentation)
 /.cascade
