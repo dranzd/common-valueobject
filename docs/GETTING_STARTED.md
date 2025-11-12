@@ -151,6 +151,7 @@ All work is organized into features. See [Feature Management](FEATURE_MANAGEMENT
 3. **1002 - Advanced Value Object Tests** (High)
 4. **1003 - PHPStan Cleanup** (Medium)
 5. **1004 - CI/CD Pipeline** (High)
+6. **1005 - Actor Value Object** (High)
 
 ### 3. Development Process
 
