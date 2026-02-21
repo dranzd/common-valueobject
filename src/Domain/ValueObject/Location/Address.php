@@ -124,6 +124,46 @@ final class Address implements ValueObject, ArrayValueObjectTranslatorCapable
         ];
     }
 
+    final public function getCompany(): Company
+    {
+        return $this->company;
+    }
+
+    final public function getAddressee(): Addressee
+    {
+        return $this->addressee;
+    }
+
+    final public function getStreet1(): Street
+    {
+        return $this->street1;
+    }
+
+    final public function getStreet2(): Street
+    {
+        return $this->street2;
+    }
+
+    final public function getCity(): City
+    {
+        return $this->city;
+    }
+
+    final public function getProvince(): Province
+    {
+        return $this->province;
+    }
+
+    final public function getCountry(): Country
+    {
+        return $this->country;
+    }
+
+    final public function getZipCode(): ZipCode
+    {
+        return $this->zipCode;
+    }
+
     private static function fromNative(): Address
     {
         $company = (string) \func_get_arg(0);

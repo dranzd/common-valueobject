@@ -60,6 +60,16 @@ class Basic implements ValueObject, ArrayValueObjectTranslatorCapable
         ];
     }
 
+    final public function getAmount(): Amount
+    {
+        return $this->amount;
+    }
+
+    final public function getCurrency(): Currency
+    {
+        return $this->currency;
+    }
+
     protected static function fromNative(): Basic
     {
         $amount = (int) \func_get_arg(0);

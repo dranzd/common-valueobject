@@ -85,6 +85,26 @@ class File implements ValueObject, ArrayValueObjectTranslatorCapable
         ];
     }
 
+    final public function getLabel(): Label
+    {
+        return $this->label;
+    }
+
+    final public function getName(): Name
+    {
+        return $this->name;
+    }
+
+    final public function getType(): Type
+    {
+        return $this->type;
+    }
+
+    final public function getPath(): Path
+    {
+        return $this->path;
+    }
+
     private static function fromNative(): File
     {
         $label = (string) \func_get_arg(0);

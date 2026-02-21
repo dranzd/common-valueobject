@@ -60,6 +60,16 @@ class Basic implements ValueObject, ArrayValueObjectTranslatorCapable
         ];
     }
 
+    final public function getValue(): Value
+    {
+        return $this->value;
+    }
+
+    final public function getUnit(): Unit
+    {
+        return $this->unit;
+    }
+
     protected static function fromNative(): Basic
     {
         $value = (int) \func_get_arg(0);
