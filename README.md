@@ -337,9 +337,4 @@ Contributions are welcome! Please ensure:
 
 ## Changelog
 
-### v1.0.0 (Initial Release)
-- ✅ Complete value object library extracted from event-sourcing
-- ✅ PHP 8.3 support
-- ✅ Integration with `dranzd/common-domain-assert`
-- ✅ 30+ built-in value object implementations
-- ✅ Comprehensive utilities for common use cases
+See [CHANGELOG.md](CHANGELOG.md) for a detailed history of changes.
