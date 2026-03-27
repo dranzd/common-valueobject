@@ -51,8 +51,10 @@ src/Domain/ValueObject/
 │   ├── Date.php
 │   ├── DateTime.php
 │   └── Time.php
-├── Money (1 type)
-│   └── Basic.php
+├── Money (3 types)
+│   ├── Basic.php
+│   ├── Currency.php
+│   └── CurrencyCode.php (enum)
 ├── Quantity (1 type)
 │   └── Custom/Quantity/Basic.php
 ├── Location (1 type)

@@ -139,32 +139,121 @@ echo $time->toNative(); // "14:30:00"
 
 ### Basic Money
 
-Represents monetary values with amount and currency.
+Represents monetary values with amount and currency. Supports arithmetic operations, comparisons, and state checks. All operations are immutable and enforce currency consistency.
 
 ```php
 use Dranzd\Common\Domain\ValueObject\Money\Basic as Money;
 
 // From array
-$price = Money::fromNative([
+$price = Money::fromArray([
     'amount' => 1999,
     'currency' => 'USD'
 ]);
 
-echo $price->getAmount();   // 1999
-echo $price->getCurrency(); // "USD"
+echo $price->getAmount()->toNative();   // 1999
+echo $price->getCurrency()->toNative(); // "USD"
 
 // To array
 $array = $price->toArray();
 // ['amount' => 1999, 'currency' => 'USD']
+
+// No-value placeholder
+$zero = Money::ofNoValue(); // amount: 0, currency: ''
+```
+
+**Arithmetic** (immutable — returns a new instance):
+
+```php
+$a = Money::fromArray(['amount' => 5000, 'currency' => 'USD']);
+$b = Money::fromArray(['amount' => 3000, 'currency' => 'USD']);
+
+$sum    = $a->add($b);       // 8000 USD
+$diff   = $a->subtract($b);  // 2000 USD
+$triple = $a->multiply(3);   // 15000 USD
+```
+
+**Comparisons** (enforce same currency — throws `InvalidArgumentException` on mismatch):
+
+```php
+$a->isGreaterThan($b);        // true
+$a->isGreaterThanOrEqual($b); // true
+$b->isLessThan($a);           // true
+$a->equals($b);               // false
+```
+
+**State checks:**
+
+```php
+$a->isZero();     // false
+$a->isPositive(); // true
+$a->isNegative(); // false
 ```
 
 **Properties:**
-- `amount` (integer) - Amount in smallest currency unit (e.g., cents)
-- `currency` (string) - ISO 4217 currency code
+- `amount` (`Integer` value object) - Amount in smallest currency unit (e.g., cents)
+- `currency` (`Currency` value object) - ISO 4217 currency code
 
 **Usage Tips:**
 - Store amounts in smallest unit (cents, not dollars)
 - Use `MoneyUtil` for conversions between float and integer
+- Arithmetic and comparison methods throw `InvalidArgumentException` on currency mismatch
+
+### Currency
+
+Represents a currency code as a dedicated value object. Extends `Literal` for backward compatibility. Supports static factory methods validated against the `CurrencyCode` enum.
+
+```php
+use Dranzd\Common\Domain\ValueObject\Money\Currency;
+use Dranzd\Common\Domain\ValueObject\Money\CurrencyCode;
+
+// Static factory (validated against CurrencyCode enum)
+$usd = Currency::USD();
+$eur = Currency::EUR();
+$php = Currency::PHP();
+
+// From CurrencyCode enum
+$sgd = Currency::fromCode(CurrencyCode::SGD);
+
+// From string (no enum validation)
+$custom = Currency::fromString('USD');
+
+// Backward-compatible factory (inherited from Literal)
+$currency = Currency::fromNative('USD');
+
+// Methods
+$usd->toString();       // "USD"
+$usd->toNative();       // "USD"
+$usd->equals($eur);     // false
+$usd->sameValueAs($eur); // false
+$usd->isEmpty();        // false
+```
+
+**Unknown codes throw `BadMethodCallException`:**
+
+```php
+Currency::XYZ(); // throws BadMethodCallException
+```
+
+### CurrencyCode (Enum)
+
+A PHP string-backed enum of ISO 4217 currency codes. Designed to be a pure data source that can be extended by consumers in their own projects.
+
+```php
+use Dranzd\Common\Domain\ValueObject\Money\CurrencyCode;
+
+// Access enum cases
+$code = CurrencyCode::USD;       // CurrencyCode enum instance
+echo $code->value;               // "USD"
+
+// From string
+$code = CurrencyCode::from('EUR');     // CurrencyCode::EUR
+$code = CurrencyCode::tryFrom('XYZ'); // null
+
+// List all cases
+$all = CurrencyCode::cases(); // array of all CurrencyCode instances
+```
+
+**Included currencies:** USD, EUR, GBP, JPY, CNY, PHP, SGD, AUD, CAD, CHF, HKD, NZD, KRW, THB, INR, MYR, IDR, VND, TWD, BRL, MXN, ZAR, SEK, NOK, DKK, AED, SAR
 
 ---
 
@@ -431,7 +520,7 @@ use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
 class MyValueObject implements ValueObject
 {
     use CompareSameValueTrait;
-    
+
     // Automatically implements sameValueAs() by comparing toNative() results
 }
 ```
@@ -446,7 +535,7 @@ use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
 class MyValueObject implements ValueObject
 {
     use ToStringUsingObjectHashTrait;
-    
+
     // Automatically implements __toString() using spl_object_hash()
 }
 ```

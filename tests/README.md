@@ -17,7 +17,7 @@ tests/
 │       ├── Native/                 # Native type tests
 │       ├── Identity/               # Identity tests (UUID, Actor)
 │       ├── DateTime/               # DateTime tests
-│       ├── Money/                  # Money tests
+│       ├── Money/                  # Money tests (Basic, Currency, CurrencyCode)
 │       ├── Location/               # Location tests
 │       ├── Collection/             # Collection tests
 │       └── Search/                 # Search component tests
@@ -100,27 +100,27 @@ final class LiteralTest extends ValueObjectTestCase
     {
         $value = 'Hello World';
         $literal = Literal::fromNative($value);
-        
+
         $this->assertInstanceOf(Literal::class, $literal);
         $this->assertEquals($value, $literal->toNative());
     }
-    
+
     public function testSameValueAs(): void
     {
         $literal1 = Literal::fromNative('test');
         $literal2 = Literal::fromNative('test');
         $literal3 = Literal::fromNative('different');
-        
+
         $this->assertValueObjectEquals($literal1, $literal2);
         $this->assertValueObjectNotEquals($literal1, $literal3);
     }
-    
+
     public function testImmutability(): void
     {
         $literal = Literal::fromNative('test');
         $this->assertImmutable($literal);
     }
-    
+
     public function testSerialization(): void
     {
         $literal = Literal::fromNative('test');
@@ -150,12 +150,12 @@ final class UuidTest extends ValueObjectTestCase
     use ToNativeTestTrait;
     use EqualityTestTrait;
     use SerializationTestTrait;
-    
+
     protected function getValueObjectClass(): string
     {
         return Uuid::class;
     }
-    
+
     protected function getValidNativeValues(): array
     {
         return [
@@ -164,7 +164,7 @@ final class UuidTest extends ValueObjectTestCase
             '6ba7b811-9dad-11d1-80b4-00c04fd430c8',
         ];
     }
-    
+
     protected function getInvalidNativeValues(): array
     {
         return [

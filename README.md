@@ -69,32 +69,32 @@ use Dranzd\Common\ValueObject\CompareSameValueTrait;
 final class EmailAddress implements ValueObject
 {
     use CompareSameValueTrait;
-    
+
     private string $value;
-    
+
     private function __construct(string $value)
     {
         $this->validate($value);
         $this->value = $value;
     }
-    
+
     public static function fromNative($value): self
     {
         return new self($value);
     }
-    
+
     public function toNative(): string
     {
         return $this->value;
     }
-    
+
     private function validate(string $value): void
     {
         if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException('Invalid email address');
         }
     }
-    
+
     public function __toString(): string
     {
         return $this->value;
@@ -109,11 +109,40 @@ echo $email->toNative(); // "user@example.com"
 ### 3. Working with Money
 
 ```php
-use Dranzd\Common\ValueObject\Money\Basic as Money;
+use Dranzd\Common\Domain\ValueObject\Money\Basic as Money;
+use Dranzd\Common\Domain\ValueObject\Money\Currency;
+use Dranzd\Common\Domain\ValueObject\Money\CurrencyCode;
 
-$price = Money::fromNative(['amount' => 1999, 'currency' => 'USD']);
-echo $price->getAmount(); // 1999
-echo $price->getCurrency(); // "USD"
+// Create from array
+$price = Money::fromArray(['amount' => 1999, 'currency' => 'USD']);
+echo $price->getAmount()->toNative(); // 1999
+echo $price->getCurrency()->toNative(); // "USD"
+
+// Currency via static factory (validated against CurrencyCode enum)
+$usd = Currency::USD();
+$eur = Currency::EUR();
+$php = Currency::PHP();
+
+// Or from the enum directly
+$currency = Currency::fromCode(CurrencyCode::SGD);
+
+// Arithmetic (returns new immutable instance)
+$a = Money::fromArray(['amount' => 5000, 'currency' => 'USD']);
+$b = Money::fromArray(['amount' => 3000, 'currency' => 'USD']);
+$sum = $a->add($b);          // 8000 USD
+$diff = $a->subtract($b);    // 2000 USD
+$triple = $a->multiply(3);   // 15000 USD
+
+// Comparisons (enforce same currency)
+$a->isGreaterThan($b);       // true
+$a->isGreaterThanOrEqual($b); // true
+$b->isLessThan($a);          // true
+$a->equals($b);              // false
+
+// State checks
+$a->isZero();     // false
+$a->isPositive(); // true
+$a->isNegative(); // false
 ```
 
 ### 4. DateTime Value Objects
@@ -143,7 +172,9 @@ $birthDate = Date::fromNative('1990-01-15');
 - **Time** - Time-only value object
 
 ### Money
-- **Basic** - Money value object with amount and currency
+- **Basic** - Money value object with amount, currency, arithmetic, comparisons, and state checks
+- **Currency** - Currency value object with static factories (e.g. `Currency::USD()`)
+- **CurrencyCode** - PHP string-backed enum of ISO 4217 currency codes (extendable)
 
 ### Quantity
 - **Basic** - Quantity value object with value and unit

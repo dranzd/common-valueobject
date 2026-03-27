@@ -5,7 +5,6 @@ namespace Dranzd\Common\Domain\ValueObject\Money;
 use Dranzd\Common\Domain\ValueObject\ArrayValueObjectTranslatorCapable;
 use Dranzd\Common\Domain\ValueObject\CompareSameValueTrait;
 use Dranzd\Common\Domain\ValueObject\Native\Number\Integer as Amount;
-use Dranzd\Common\Domain\ValueObject\Native\String\Literal as Currency;
 use Dranzd\Common\Domain\ValueObject\ToStringUsingObjectHashTrait;
 use Dranzd\Common\Domain\ValueObject\ValueObject;
 use Dranzd\Common\Utils\ArrayUtil;
@@ -68,6 +67,89 @@ class Basic implements ValueObject, ArrayValueObjectTranslatorCapable
     final public function getCurrency(): Currency
     {
         return $this->currency;
+    }
+
+    final public function add(Basic $other): Basic
+    {
+        $this->assertSameCurrency($other);
+
+        return new static(
+            $this->amount->plus($other->amount),
+            $this->currency
+        );
+    }
+
+    final public function subtract(Basic $other): Basic
+    {
+        $this->assertSameCurrency($other);
+
+        return new static(
+            $this->amount->minus($other->amount),
+            $this->currency
+        );
+    }
+
+    final public function multiply(int $factor): Basic
+    {
+        return new static(
+            $this->amount->multiply(Amount::fromNative($factor)),
+            $this->currency
+        );
+    }
+
+    final public function isZero(): bool
+    {
+        return $this->amount->toNative() === 0;
+    }
+
+    final public function isPositive(): bool
+    {
+        return $this->amount->toNative() > 0;
+    }
+
+    final public function isNegative(): bool
+    {
+        return $this->amount->isNegative();
+    }
+
+    final public function isGreaterThan(Basic $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount->isGreaterThan($other->amount);
+    }
+
+    final public function isGreaterThanOrEqual(Basic $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount->isGreaterThanOrEqualTo($other->amount);
+    }
+
+    final public function isLessThan(Basic $other): bool
+    {
+        $this->assertSameCurrency($other);
+
+        return $this->amount->isLessThan($other->amount);
+    }
+
+    final public function equals(Basic $other): bool
+    {
+        return $this->amount->toNative() === $other->amount->toNative()
+            && $this->currency->sameValueAs($other->currency);
+    }
+
+    private function assertSameCurrency(Basic $other): void
+    {
+        if (!$this->currency->sameValueAs($other->currency)) {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    'Currency mismatch: cannot operate on %s and %s',
+                    $this->currency->toNative(),
+                    $other->currency->toNative()
+                )
+            );
+        }
     }
 
     protected static function fromNative(): Basic
