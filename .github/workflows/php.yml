@@ -28,11 +28,19 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: json
-          coverage: none
+          coverage: pcov
+
+      - name: Mint GitHub App token for private packages
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.CI_APP_ID }}
+          private-key: ${{ secrets.CI_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
 
       - name: Setup Composer authentication
         run: |
-          composer config --global github-oauth.github.com ${{ secrets.GH_TOKEN }}
+          composer config --global github-oauth.github.com "${{ steps.app-token.outputs.token }}"
 
       - name: Validate composer.json
         run: composer validate --strict
