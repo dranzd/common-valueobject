@@ -28,7 +28,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
           extensions: json
-          coverage: none
+          coverage: pcov
 
       - name: Mint GitHub App token for private packages
         id: app-token
