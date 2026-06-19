@@ -5,6 +5,13 @@ All notable changes to `dranzd/common-valueobject` will be documented in this fi
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.1] - 2026-06-19
+
+### Changed
+
+- Pinned `dranzd/common-domain-assert` and `dranzd/common-utils` to `^1.0` (their stable releases) instead of `dev-master`, so this package resolves under `minimum-stability: stable` for downstream consumers.
+- Switched the `common-domain-assert` and `common-utils` VCS repository URLs from SSH (`git@github.com:`) to HTTPS, matching the rest of the package ecosystem.
+
 ## [1.0.0] - 2026-03-27
 
 Initial stable release of the Common ValueObject library — a framework-agnostic, DDD value object library for PHP 8.3+.

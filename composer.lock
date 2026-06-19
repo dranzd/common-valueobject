@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c74b056e7ae57de219ca33a6fedb9ac",
+    "content-hash": "e2140e93dc930ec89ddfafebe91b334d",
     "packages": [
         {
             "name": "brick/math",
@@ -202,16 +202,16 @@
         },
         {
             "name": "dranzd/common-domain-assert",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:dranzd/common-domain-assert.git",
-                "reference": "df678ece7e96d0a9d436af28c15e9ec58547b8fc"
+                "reference": "b2ff3cc7b1bf84712701410d1c4452fa4e69e46d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dranzd/common-domain-assert/zipball/df678ece7e96d0a9d436af28c15e9ec58547b8fc",
-                "reference": "df678ece7e96d0a9d436af28c15e9ec58547b8fc",
+                "url": "https://api.github.com/repos/dranzd/common-domain-assert/zipball/b2ff3cc7b1bf84712701410d1c4452fa4e69e46d",
+                "reference": "b2ff3cc7b1bf84712701410d1c4452fa4e69e46d",
                 "shasum": ""
             },
             "require": {
@@ -223,7 +223,6 @@
                 "phpunit/phpunit": "^11.0",
                 "squizlabs/php_codesniffer": "^3.10"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -259,20 +258,24 @@
                 }
             ],
             "description": "Domain-Driven Design (DDD) assertion utilities for domain validation, extending webmozart/assert",
-            "time": "2025-11-02T05:16:00+00:00"
+            "support": {
+                "source": "https://github.com/dranzd/common-domain-assert/tree/v1.0.0",
+                "issues": "https://github.com/dranzd/common-domain-assert/issues"
+            },
+            "time": "2026-06-19T01:42:45+00:00"
         },
         {
             "name": "dranzd/common-utils",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:dranzd/common-utils.git",
-                "reference": "dcdec316fb5dcf5ec07c932b05e479ccd18ad2c7"
+                "reference": "b896314c16b63a659efc1e08841cb54fe4e41359"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dranzd/common-utils/zipball/dcdec316fb5dcf5ec07c932b05e479ccd18ad2c7",
-                "reference": "dcdec316fb5dcf5ec07c932b05e479ccd18ad2c7",
+                "url": "https://api.github.com/repos/dranzd/common-utils/zipball/b896314c16b63a659efc1e08841cb54fe4e41359",
+                "reference": "b896314c16b63a659efc1e08841cb54fe4e41359",
                 "shasum": ""
             },
             "require": {
@@ -284,7 +287,6 @@
                 "phpunit/phpunit": "^11.0",
                 "squizlabs/php_codesniffer": "^3.10"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -304,10 +306,10 @@
                     "phpstan analyse src tests --level=8"
                 ],
                 "cs-check": [
-                    "phpcs --standard=PSR12 src tests"
+                    "phpcs"
                 ],
                 "cs-fix": [
-                    "phpcbf --standard=PSR12 src tests"
+                    "phpcbf"
                 ]
             },
             "license": [
@@ -332,7 +334,11 @@
                 "string",
                 "utilities"
             ],
-            "time": "2025-11-02T05:09:40+00:00"
+            "support": {
+                "source": "https://github.com/dranzd/common-utils/tree/v1.0.0",
+                "issues": "https://github.com/dranzd/common-utils/issues"
+            },
+            "time": "2026-02-14T09:05:46+00:00"
         },
         {
             "name": "ramsey/collection",
@@ -2536,10 +2542,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "dranzd/common-domain-assert": 20,
-        "dranzd/common-utils": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
