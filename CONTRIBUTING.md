@@ -74,6 +74,12 @@ The project follows [Semantic Versioning](https://semver.org/). Changing documen
 signatures or thrown exception types is a breaking change and needs a major release. Correcting
 behaviour that was a defect is not; such fixes are listed under "Fixed" in the changelog.
 
+## Releasing
+
+Maintainers release from `master`: add a dated section for the version to `CHANGELOG.md`, merge it,
+then run the "Release" workflow with that version. It checks that CI passed on the commit, creates
+the `v<version>` tag and publishes a GitHub release with that changelog section as its notes.
+
 ## Conduct
 
 Be respectful and constructive: discuss the code, not the person, and assume good intent.
