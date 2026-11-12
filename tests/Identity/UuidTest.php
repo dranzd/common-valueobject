@@ -64,28 +64,8 @@ final class UuidTest extends TestCase
         yield 'version 1' => ['6ba7b810-9dad-11d1-80b4-00c04fd430c8'];
         yield 'braced' => ['{550e8400-e29b-41d4-a716-446655440000}'];
         yield 'urn' => ['urn:uuid:550e8400-e29b-41d4-a716-446655440000'];
-    }
-
-    /**
-     * Pins how Assert::uuid() behaves: it strips "urn:", "uuid:", "{" and "}" from anywhere in the string before
-     * matching, so these malformed forms are accepted and stored exactly as given.
-     */
-    #[DataProvider('provideMalformedButAcceptedValues')]
-    public function testAcceptsMalformedFormsBecauseAssertStripsDecorationsAnywhere(string $value): void
-    {
-        self::assertSame($value, (new Uuid($value))->toNative());
-    }
-
-    /**
-     * @return iterable<string, array{string}>
-     */
-    public static function provideMalformedButAcceptedValues(): iterable
-    {
-        yield 'unbalanced opening brace' => ['{550e8400-e29b-41d4-a716-446655440000'];
-        yield 'unbalanced closing brace' => ['550e8400-e29b-41d4-a716-446655440000}'];
-        yield 'brace inside the value' => ['550e8400-e29b{-41d4-a716-446655440000'];
         yield 'uuid prefix' => ['uuid:550e8400-e29b-41d4-a716-446655440000'];
-        yield 'repeated urn prefix' => ['urn:urn:550e8400-e29b-41d4-a716-446655440000'];
+        yield 'uuid prefix, braced' => ['uuid:{550e8400-e29b-41d4-a716-446655440000}'];
     }
 
     #[DataProvider('provideRejectedValues')]
@@ -107,6 +87,15 @@ final class UuidTest extends TestCase
         yield 'no dashes' => ['550e8400e29b41d4a716446655440000'];
         yield 'trailing space' => ['550e8400-e29b-41d4-a716-446655440000 '];
         yield 'trailing newline' => ["550e8400-e29b-41d4-a716-446655440000\n"];
+        yield 'unbalanced opening brace' => ['{550e8400-e29b-41d4-a716-446655440000'];
+        yield 'unbalanced closing brace' => ['550e8400-e29b-41d4-a716-446655440000}'];
+        yield 'brace inside the value' => ['550e8400-e29b{-41d4-a716-446655440000'];
+        yield 'repeated urn prefix' => ['urn:urn:550e8400-e29b-41d4-a716-446655440000'];
+        yield 'urn without uuid' => ['urn:550e8400-e29b-41d4-a716-446655440000'];
+        yield 'urn with braces' => ['urn:uuid:{550e8400-e29b-41d4-a716-446655440000}'];
+        yield 'leading space' => [' 550e8400-e29b-41d4-a716-446655440000'];
+        yield 'one character short' => ['550e8400-e29b-41d4-a716-44665544000'];
+        yield 'non-hex character' => ['550e8400-e29b-41d4-a716-44665544000g'];
     }
 
     public function testFromNativeRejectsInvalidStrings(): void
