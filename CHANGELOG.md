@@ -7,6 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-11-12
+
+### Added
+
+- Support for `webmozart/assert` 2.x alongside 1.x (`^1.12 || ^2.0`).
+
+### Changed
+
+- `Uuid` validates the value itself instead of delegating to `webmozart/assert`, whose two major
+  versions disagree on malformed input. The result is now the same whichever version is installed,
+  and matches the stricter 2.x rule.
+
+  Accepted, with hex digits in either case: the plain form, `{...}`, `urn:uuid:...`, `uuid:...` and
+  `uuid:{...}`.
+
+  No longer accepted, although 1.1.0 let them through and stored them as given:
+
+  - an unbalanced, doubled or misplaced brace, such as `{550e8400-...` without the closing brace;
+  - braces combined with the URN prefix (`urn:uuid:{...}`) or a prefix inside the braces
+    (`{urn:uuid:...}`, `{uuid:...}`);
+  - a repeated or partial prefix, such as `urn:urn:...` or `urn:...`.
+
+  Well-formed UUIDs are unaffected. If identifiers were ever stored in one of the rejected forms,
+  `new Uuid()` and `fromNative()` now throw for them, so check stored values that contain `{`, `}`
+  or `:` before upgrading.
+
 ## [1.1.0] - 2026-11-12
 
 First public release. No class, method, property or signature was removed or changed, so existing

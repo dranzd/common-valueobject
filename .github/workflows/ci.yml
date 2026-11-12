@@ -46,6 +46,8 @@ jobs:
         include:
           - php: "8.3"
             dependencies: lowest
+          - php: "8.5"
+            dependencies: highest
     steps:
       - uses: actions/checkout@v7
 
@@ -60,6 +62,10 @@ jobs:
 
       - name: Run tests with coverage
         run: composer test:coverage
+
+      - name: Run static analysis against the highest dependencies
+        if: matrix.dependencies == 'highest'
+        run: composer phpstan
 
       - name: Enforce minimum line coverage
         run: php .github/scripts/coverage-check.php build/clover.xml 95

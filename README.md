@@ -214,7 +214,8 @@ composer check        # coding standards, static analysis and tests
 A Docker setup is included for running the same commands without a local PHP: `make install`, then
 `make check`.
 
-CI runs the suite on PHP 8.3, 8.4 and 8.5 and requires at least 95% line coverage.
+CI runs the suite on PHP 8.3, 8.4 and 8.5, against the locked, lowest and highest allowed dependency
+versions, and requires at least 95% line coverage.
 
 ## Contributing
 

@@ -164,12 +164,25 @@ public function __construct(string|null $value = null);
 public static function generateAsString(): string;
 ```
 
-`null` generates a version 4 UUID. Other values go through `Assert::uuid()` and are kept exactly as given. The check
-accepts lower and upper case, the nil UUID, `{...}` braces and the `urn:uuid:` prefix. It removes `{`, `}`, `urn:` and
-`uuid:` from anywhere in the string before matching, so malformed forms such as `{550e8400-e29b-41d4-a716-446655440000`
-(unbalanced brace) are accepted as well and stored as given. Text that is not a UUID, the empty string, a value
-without dashes and one with surrounding whitespace or a trailing newline are rejected with an
-`\InvalidArgumentException`.
+`null` generates a version 4 UUID. Any other value must be a UUID in one of these forms, and is kept exactly as given:
+
+| Form | Example |
+|---|---|
+| Plain (the nil UUID included) | `550e8400-e29b-41d4-a716-446655440000` |
+| Braced | `{550e8400-e29b-41d4-a716-446655440000}` |
+| URN | `urn:uuid:550e8400-e29b-41d4-a716-446655440000` |
+| `uuid:` prefix, plain | `uuid:550e8400-e29b-41d4-a716-446655440000` |
+| `uuid:` prefix, braced | `uuid:{550e8400-e29b-41d4-a716-446655440000}` |
+
+Hex digits may be in either case; the prefixes must be lower case.
+
+Anything else throws `Webmozart\Assert\InvalidArgumentException` (an `\InvalidArgumentException`) with the message
+`Value "<input>" is not a valid UUID.` That covers text that is not a UUID, the empty string, a value without dashes,
+surrounding whitespace or a trailing newline, and decorations in any other arrangement: an unbalanced or doubled
+brace, braces combined with `urn:uuid:` (`urn:uuid:{...}`), a prefix inside the braces (`{urn:uuid:...}`), and a
+repeated, partial or upper-case prefix. The check is made by `Uuid` itself, so it is the same whichever version of
+`webmozart/assert` is installed.
+
 `fromNative()` and `generateAsString()` are inherited / use `new static`, so a subclass gets its own type back.
 `sameValueAs()` is false between a `Uuid` and a subclass holding the same string.
 
