@@ -1,0 +1,13 @@
+includes:
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon
+
+parameters:
+    level: 8
+    paths:
+        - src
+        - tests
+    ignoreErrors:
+        # Base classes are meant to be extended, and their factories return the subclass.
+        # Enforcing consistent constructors would push that rule onto every consumer.
+        - identifier: new.static

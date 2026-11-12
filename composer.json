@@ -1,0 +1,76 @@
+{
+    "name": "dranzd/common-valueobject",
+    "description": "Value object building blocks for Domain-Driven Design in PHP: a small ValueObject contract with ready-made identity, money, primitive, date and collection types.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "value-object",
+        "ddd",
+        "domain-driven-design",
+        "uuid",
+        "money",
+        "immutable",
+        "domain-model"
+    ],
+    "homepage": "https://github.com/dranzd/common-valueobject",
+    "authors": [
+        {
+            "name": "Dranzd",
+            "email": "dranzd@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/dranzd/common-valueobject/issues",
+        "source": "https://github.com/dranzd/common-valueobject"
+    },
+    "require": {
+        "php": "^8.3",
+        "doctrine/collections": "^2.0",
+        "ramsey/uuid": "^4.7",
+        "webmozart/assert": "^1.12"
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^2.1",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpunit/phpunit": "^11.5.4",
+        "squizlabs/php_codesniffer": "^4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Dranzd\\Common\\Domain\\ValueObject\\": "src/Domain/ValueObject/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Dranzd\\Common\\Domain\\ValueObject\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:coverage": "phpunit --coverage-text --coverage-clover=build/clover.xml",
+        "phpstan": "phpstan analyse --no-progress",
+        "cs-check": "phpcs",
+        "cs-fix": "phpcbf",
+        "check": [
+            "@cs-check",
+            "@phpstan",
+            "@test"
+        ]
+    },
+    "scripts-descriptions": {
+        "test": "Run the PHPUnit test suite",
+        "test:coverage": "Run the test suite with a coverage report (needs pcov or xdebug)",
+        "phpstan": "Run PHPStan static analysis",
+        "cs-check": "Check coding standards (PSR-12)",
+        "cs-fix": "Fix coding standards violations",
+        "check": "Run every quality gate"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
